@@ -1,0 +1,22 @@
+rss-mysql:
+  image: mysql:latest
+  environment:
+    - MYSQL_ROOT_PASSWORD=root
+  volumes:
+    - /var/lib/javarss/mysql:/var/lib/mysql
+  ports:
+    - 3307:3306
+
+rss-phpmyadmin:
+  image: nazarpc/phpmyadmin:latest
+  links:
+    - rss-mysql:mysql
+  ports:
+    - 4419:80
+
+rss-server:
+  build: server/
+  links:
+    - rss-mysql:mysql
+  ports:
+    - 4420:8080
