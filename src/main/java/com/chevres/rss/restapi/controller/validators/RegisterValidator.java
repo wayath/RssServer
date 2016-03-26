@@ -30,11 +30,4 @@ public class RegisterValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "error.password", "password is required.");
     }
     
-    public void validateClient(String client, Errors errors) {
-//        int convertedClient = Integer.parseInt(client, 3);
-//        if (convertedClient != 1 && convertedClient != 2 && convertedClient != 3) {
-//            errors.rejectValue("client", "client is required");
-//        }
-    }
-
 }

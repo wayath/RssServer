@@ -12,25 +12,15 @@ package com.chevres.rss.restapi.controller.jsonobjects;
 public class RegisterJson {
     private String username;
     private String password;
-    private int client;
 
     public RegisterJson() {
     }
 
-    public RegisterJson(String username, String password, int client) {
+    public RegisterJson(String username, String password) {
         this.username = username;
         this.password = password;
-        this.client = client;
     }
     
-    public int getClient() {
-        return client;
-    }
-
-    public void setClient(int client) {
-        this.client = client;
-    }
-
     public String getUsername() {
         return username;
     }
