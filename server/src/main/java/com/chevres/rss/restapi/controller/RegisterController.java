@@ -7,6 +7,8 @@ import com.chevres.rss.restapi.dao.UserDAO;
 import com.chevres.rss.restapi.model.User;
 import com.chevres.rss.restapi.model.UserAuth;
 import com.chevres.rss.restapi.utils.TokenGenerator;
+import java.sql.Timestamp;
+import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
@@ -51,14 +53,17 @@ public class RegisterController {
         if (userDAO.doesExist(user.getUsername())) {
             return new RegisterJsonStatus("error_username");
         }
-        
+
         userDAO.create(user);
 
         TokenGenerator tg = new TokenGenerator();
-        
+        Date date = new Date();
+        Timestamp timestamp = new Timestamp(date.getTime());
+
         UserAuth userAuth = new UserAuth();
         userAuth.setIdUser(user.getId());
         userAuth.setToken(tg.getToken());
+        userAuth.setCreateDate(timestamp);
         userAuthDAO.create(userAuth);
         context.close();
 
