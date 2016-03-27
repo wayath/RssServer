@@ -9,11 +9,15 @@ import com.chevres.rss.restapi.model.UserAuth;
 import com.chevres.rss.restapi.utils.TokenGenerator;
 import java.sql.Timestamp;
 import java.util.Date;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -35,7 +39,7 @@ public class LoginController {
 
     @RequestMapping(path = "/login", method = RequestMethod.POST)
     @ResponseBody
-    public LoginJsonStatus login(
+    public ResponseEntity<String> login(
             @RequestBody User user,
             BindingResult bindingResult) {
 
@@ -44,15 +48,15 @@ public class LoginController {
         loginValidator.validate(user, bindingResult);
 
         if (bindingResult.hasErrors()) {
-            return new LoginJsonStatus("error_object");
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
 
         UserDAO userDAO = context.getBean(UserDAO.class);
         UserAuthDAO userAuthDAO = context.getBean(UserAuthDAO.class);
-        
+
         User foundUser = userDAO.findByUsernameAndPassword(user.getUsername(), user.getPassword());
         if (foundUser == null) {
-            return new LoginJsonStatus("error_credentials");
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
 
         TokenGenerator tg = new TokenGenerator();
@@ -64,9 +68,10 @@ public class LoginController {
         userAuth.setToken(tg.getToken());
         userAuth.setCreateDate(timestamp);
         userAuthDAO.create(userAuth);
-        
+
         context.close();
 
-        return new LoginJsonStatus("ok", userAuth.getToken());
+        return new ResponseEntity(new LoginJsonStatus("ok", userAuth.getToken()),
+                HttpStatus.OK);
     }
 }

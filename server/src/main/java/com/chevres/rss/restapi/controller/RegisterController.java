@@ -1,5 +1,6 @@
 package com.chevres.rss.restapi.controller;
 
+import com.chevres.rss.restapi.controller.jsonobjects.LoginJsonStatus;
 import com.chevres.rss.restapi.controller.jsonobjects.RegisterJsonStatus;
 import com.chevres.rss.restapi.controller.validators.RegisterValidator;
 import com.chevres.rss.restapi.dao.UserAuthDAO;
@@ -11,6 +12,9 @@ import java.sql.Timestamp;
 import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -37,7 +41,7 @@ public class RegisterController {
 
     @RequestMapping(path = "/register", method = RequestMethod.POST)
     @ResponseBody
-    public RegisterJsonStatus register(
+    public HttpEntity<String> register(
             @RequestBody User user,
             BindingResult bindingResult) {
 
@@ -46,14 +50,14 @@ public class RegisterController {
         registerValidator.validate(user, bindingResult);
 
         if (bindingResult.hasErrors()) {
-            return new RegisterJsonStatus("error_object");
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
 
         UserDAO userDAO = context.getBean(UserDAO.class);
         UserAuthDAO userAuthDAO = context.getBean(UserAuthDAO.class);
 
         if (userDAO.doesExist(user.getUsername())) {
-            return new RegisterJsonStatus("error_username");
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
 
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -72,6 +76,7 @@ public class RegisterController {
         userAuthDAO.create(userAuth);
         context.close();
 
-        return new RegisterJsonStatus("ok", userAuth.getToken());
+        return new ResponseEntity(new RegisterJsonStatus("ok", userAuth.getToken()),
+                HttpStatus.OK);
     }
 }
