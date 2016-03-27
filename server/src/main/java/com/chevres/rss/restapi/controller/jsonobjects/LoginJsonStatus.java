@@ -9,22 +9,22 @@ package com.chevres.rss.restapi.controller.jsonobjects;
  *
  * @author anthony
  */
-public class RegisterJsonStatus {
+public class LoginJsonStatus {
 
     private final String status;
     private final String token;
 
-    public RegisterJsonStatus() {
+    public LoginJsonStatus() {
         this.status = "error";
         this.token = null;
     }
 
-    public RegisterJsonStatus(String status) {
+    public LoginJsonStatus(String status) {
         this.token = null;
         this.status = status;
     }
     
-    public RegisterJsonStatus(String status, String token) {
+    public LoginJsonStatus(String status, String token) {
         this.token = token;
         this.status = status;
     }

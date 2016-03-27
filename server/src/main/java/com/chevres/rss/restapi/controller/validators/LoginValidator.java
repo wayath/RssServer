@@ -16,7 +16,7 @@ import org.springframework.validation.Validator;
  * @author anthony
  */
 @Component
-public class RegisterValidator implements Validator {
+public class LoginValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> type) {

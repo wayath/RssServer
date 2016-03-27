@@ -9,14 +9,14 @@ package com.chevres.rss.restapi.controller.jsonobjects;
  *
  * @author anthony
  */
-public class RegisterJson {
+public class UserJson {
     private String username;
     private String password;
 
-    public RegisterJson() {
+    public UserJson() {
     }
 
-    public RegisterJson(String username, String password) {
+    public UserJson(String username, String password) {
         this.username = username;
         this.password = password;
     }

@@ -11,6 +11,8 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
  *
@@ -55,6 +57,22 @@ public class UserDAOImpl extends AbstractGenericDAO implements UserDAO {
         }
 
         return false;
+    }
+
+    @Override
+    public User findByUsernameAndPassword(String username, String password) {
+        Session session = this.getSessionFactory().openSession();
+
+        Criteria criteria = session.createCriteria(User.class);
+        User user = (User) criteria.add(Restrictions.eq("username", username)).uniqueResult();
+
+        session.close();
+        if (user != null) {
+            PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            boolean doesMatch = passwordEncoder.matches(password, user.getPassword());
+            return doesMatch ? user : null;
+        }
+        return null;
     }
 
 }

@@ -43,4 +43,5 @@
     </bean>
     
     <bean id="registerValidator" class="com.chevres.rss.restapi.controller.validators.RegisterValidator" />
+    <bean id="loginValidator" class="com.chevres.rss.restapi.controller.validators.LoginValidator" />
 </beans>

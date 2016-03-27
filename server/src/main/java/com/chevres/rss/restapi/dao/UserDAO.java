@@ -18,4 +18,6 @@ public interface UserDAO extends GenericDAO {
     public void updatePassword(int id, String password);
     
     public boolean doesExist(String username);
+    
+    public User findByUsernameAndPassword(String username, String password);
 }
