@@ -1,4 +1,4 @@
-rss-mysql:
+rssmysql:
   image: mysql:latest
   environment:
     - MYSQL_ROOT_PASSWORD=root
@@ -7,21 +7,21 @@ rss-mysql:
   ports:
     - 3307:3306
 
-rss-phpmyadmin:
+rssphpmyadmin:
   image: nazarpc/phpmyadmin:latest
   links:
-    - rss-mysql:mysql
+    - rssmysql:mysql
   ports:
     - 4419:80
 
-rss-server:
+rssserver:
   build: server/
   links:
-    - rss-mysql:mysql
+    - rssmysql:mysql
   ports:
     - 4420:8080
 
-rss-doc-api:
+rssdocapi:
   build: doc/
   ports:
     - 4421:80
