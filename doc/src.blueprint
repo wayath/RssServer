@@ -1,0 +1,138 @@
+FORMAT: 1A
+HOST: http://romain-zanchi.com:4420/api
+VERSION: 0.1.420
+
+# Java rss
+
+Documentation API java RSS
+
+
+## Register [/register]
+
+### Register [POST]
+Creer un utilisateur.
++ Request (application/json)
+
+          {
+              username: "username",
+              password: "password"
+          }
+
+
++ Response 400 (application/json)
+
+          {
+              message: "bad_params"
+          }
++ Response 400 (application/json)
+
+          {
+              message: "already_exists"
+          }
++ Response 200 (application/json)
+
+          {
+              message: "success"
+          }
+
+
+## Login [/login]
+
+### Login [POST]
+Login
++ Request (application/json)
+
+          {
+              username: "username",
+              password: "password"
+          }
+
+
++ Response 400 (application/json)
+
+          {
+              message: "bad_params"
+          }
++ Response 400 (application/json)
+
+          {
+              message: "bad_credentials"
+          }
++ Response 200 (application/json)
+
+          {
+              token: "token"
+          }
+
+
+## User [/user]
+
+### Get user [GET]
+Récupérer l'utilisateur
++ Request (application/json)
+      + Headers
+
+          User-token: "token"
+
++ Response 400 (application/json)
+
+          {
+              message: "invalid_token"
+          }
++ Response 200 (application/json)
+
+          {
+              username: "username",
+              type: "admin|user"
+          }
+
+### Update user [PUT]
+Modifier l'utilisateur
++ Request (application/json)
+
+          {
+              username: "username",
+              password: "password"
+          }
+      + Headers
+
+          User-token: "token"
+
++ Response 400 (application/json)
+
+          {
+              message: "invalid_token"
+          }
++ Response 400 (application/json)
+
+          {
+              message: "bad_params"
+          }
++ Response 400 (application/json)
+
+          {
+              message: "already_exists"
+          }
++ Response 200 (application/json)
+
+          {
+              message: "success"
+          }
+
+### Delete user [DELETE]
+Supprimer l'utilisateur
++ Request (application/json)
+      + Headers
+
+          User-token: "token"
+
++ Response 400 (application/json)
+
+          {
+              message: "invalid_token"
+          }
++ Response 200 (application/json)
+
+          {
+              message: "success"
+          }
