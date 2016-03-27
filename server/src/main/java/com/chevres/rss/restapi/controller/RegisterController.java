@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,8 +32,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class RegisterController {
 
-    private static final String SALT = "9mahoD6kYRudo9Kba77C3W7PORdnyvFutKj";
-    
     @Autowired
     RegisterValidator registerValidator;
 
