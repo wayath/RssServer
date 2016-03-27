@@ -16,10 +16,6 @@ public class SuccessLogoutResponse {
         this.message = status;
     }
     
-    public SuccessLogoutResponse(String status, String token) {
-        this.message = status;
-    }
-
     public String getMessage() {
         return message;
     }
