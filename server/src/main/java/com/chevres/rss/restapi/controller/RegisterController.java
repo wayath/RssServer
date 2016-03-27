@@ -1,7 +1,7 @@
 package com.chevres.rss.restapi.controller;
 
-import com.chevres.rss.restapi.controller.jsonobjects.LoginJsonStatus;
-import com.chevres.rss.restapi.controller.jsonobjects.RegisterJsonStatus;
+import com.chevres.rss.restapi.controller.jsonresponse.ErrorRegisterResponse;
+import com.chevres.rss.restapi.controller.jsonresponse.SuccessRegisterResponse;
 import com.chevres.rss.restapi.controller.validators.RegisterValidator;
 import com.chevres.rss.restapi.dao.UserAuthDAO;
 import com.chevres.rss.restapi.dao.UserDAO;
@@ -50,14 +50,16 @@ public class RegisterController {
         registerValidator.validate(user, bindingResult);
 
         if (bindingResult.hasErrors()) {
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new ErrorRegisterResponse("bad_params"),
+                    HttpStatus.BAD_REQUEST);
         }
 
         UserDAO userDAO = context.getBean(UserDAO.class);
         UserAuthDAO userAuthDAO = context.getBean(UserAuthDAO.class);
 
         if (userDAO.doesExist(user.getUsername())) {
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new ErrorRegisterResponse("already_exist"),
+                    HttpStatus.BAD_REQUEST);
         }
 
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -65,18 +67,9 @@ public class RegisterController {
         user.setPassword(hashedPassword);
         userDAO.create(user);
 
-        TokenGenerator tg = new TokenGenerator();
-        Date date = new Date();
-        Timestamp timestamp = new Timestamp(date.getTime());
-
-        UserAuth userAuth = new UserAuth();
-        userAuth.setIdUser(user.getId());
-        userAuth.setToken(tg.getToken());
-        userAuth.setCreateDate(timestamp);
-        userAuthDAO.create(userAuth);
         context.close();
 
-        return new ResponseEntity(new RegisterJsonStatus("ok", userAuth.getToken()),
+        return new ResponseEntity(new SuccessRegisterResponse("success"),
                 HttpStatus.OK);
     }
 }

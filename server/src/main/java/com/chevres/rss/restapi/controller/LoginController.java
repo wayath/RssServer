@@ -1,6 +1,7 @@
 package com.chevres.rss.restapi.controller;
 
-import com.chevres.rss.restapi.controller.jsonobjects.LoginJsonStatus;
+import com.chevres.rss.restapi.controller.jsonresponse.ErrorLoginResponse;
+import com.chevres.rss.restapi.controller.jsonresponse.SuccessLoginResponse;
 import com.chevres.rss.restapi.controller.validators.LoginValidator;
 import com.chevres.rss.restapi.dao.UserAuthDAO;
 import com.chevres.rss.restapi.dao.UserDAO;
@@ -9,7 +10,6 @@ import com.chevres.rss.restapi.model.UserAuth;
 import com.chevres.rss.restapi.utils.TokenGenerator;
 import java.sql.Timestamp;
 import java.util.Date;
-import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.http.HttpStatus;
@@ -17,7 +17,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -48,7 +47,8 @@ public class LoginController {
         loginValidator.validate(user, bindingResult);
 
         if (bindingResult.hasErrors()) {
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new ErrorLoginResponse("bad_params"),
+                    HttpStatus.BAD_REQUEST);
         }
 
         UserDAO userDAO = context.getBean(UserDAO.class);
@@ -56,7 +56,8 @@ public class LoginController {
 
         User foundUser = userDAO.findByUsernameAndPassword(user.getUsername(), user.getPassword());
         if (foundUser == null) {
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new ErrorLoginResponse("bad_credentials"),
+                    HttpStatus.BAD_REQUEST);
         }
 
         TokenGenerator tg = new TokenGenerator();
@@ -71,7 +72,7 @@ public class LoginController {
 
         context.close();
 
-        return new ResponseEntity(new LoginJsonStatus("ok", userAuth.getToken()),
+        return new ResponseEntity(new SuccessLoginResponse(userAuth.getToken()),
                 HttpStatus.OK);
     }
 }
