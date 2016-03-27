@@ -36,4 +36,15 @@ public class UserAuthDAOImpl extends AbstractGenericDAO implements UserAuthDAO {
     public void update(String username) {
     }
 
+    @Override
+    public UserAuth findByToken(String token) {
+        Session session = this.getSessionFactory().openSession();
+
+        Criteria criteria = session.createCriteria(UserAuth.class);
+        UserAuth ua = (UserAuth)criteria.add(Restrictions.eq("token", token)).uniqueResult();
+        session.close();
+        
+        return ua;
+    }
+
 }

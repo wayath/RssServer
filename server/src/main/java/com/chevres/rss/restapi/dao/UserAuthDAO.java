@@ -16,6 +16,8 @@ public interface UserAuthDAO extends GenericDAO {
     
     public List<UserAuth> findByUsername(String username);
 
+    public UserAuth findByToken(String token);
+    
     public void update(String username);
     
 }

@@ -6,10 +6,6 @@ import com.chevres.rss.restapi.controller.validators.RegisterValidator;
 import com.chevres.rss.restapi.dao.UserAuthDAO;
 import com.chevres.rss.restapi.dao.UserDAO;
 import com.chevres.rss.restapi.model.User;
-import com.chevres.rss.restapi.model.UserAuth;
-import com.chevres.rss.restapi.utils.TokenGenerator;
-import java.sql.Timestamp;
-import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.http.HttpEntity;
@@ -55,7 +51,6 @@ public class RegisterController {
         }
 
         UserDAO userDAO = context.getBean(UserDAO.class);
-        UserAuthDAO userAuthDAO = context.getBean(UserAuthDAO.class);
 
         if (userDAO.doesExist(user.getUsername())) {
             return new ResponseEntity(new ErrorRegisterResponse("already_exist"),
