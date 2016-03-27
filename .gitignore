@@ -7,4 +7,4 @@ release.properties
 dependency-reduced-pom.xml
 buildNumber.properties
 .mvn/timing.properties
-doc/node_modules/
+doc/src/node_modules/
