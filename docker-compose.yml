@@ -19,7 +19,7 @@ rssserver:
   links:
     - rssmysql:mysql
   ports:
-    - 4420:8080
+    - 4422:8080
 
 rssdocapi:
   build: doc/
