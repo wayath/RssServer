@@ -48,4 +48,5 @@
     
     <bean id="userValidator" class="com.chevres.rss.restapi.controller.validators.UserValidator" />
     <bean id="userUpdateValidator" class="com.chevres.rss.restapi.controller.validators.UserUpdateValidator" />
+    <bean id="feedValidator" class="com.chevres.rss.restapi.controller.validators.FeedValidator" />
 </beans>

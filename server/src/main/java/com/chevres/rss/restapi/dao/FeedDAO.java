@@ -5,10 +5,15 @@
  */
 package com.chevres.rss.restapi.dao;
 
+import com.chevres.rss.restapi.model.User;
+
 /**
  *
  * @author anthony
  */
 public interface FeedDAO extends GenericDAO {
     
+    public boolean doesExist(String url);
+    
+    public void removeAllForUser(User user);
 }

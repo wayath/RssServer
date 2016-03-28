@@ -6,12 +6,12 @@ import com.chevres.rss.restapi.controller.jsonresponse.SuccessGetUserResponseWit
 import com.chevres.rss.restapi.controller.jsonresponse.SuccessGetUsersResponse;
 import com.chevres.rss.restapi.controller.jsonresponse.SuccessMessageResponse;
 import com.chevres.rss.restapi.controller.validators.UserUpdateValidator;
+import com.chevres.rss.restapi.dao.FeedDAO;
 import com.chevres.rss.restapi.dao.UserAuthDAO;
 import com.chevres.rss.restapi.dao.UserDAO;
 import com.chevres.rss.restapi.model.User;
 import com.chevres.rss.restapi.model.UserAuth;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -131,6 +131,7 @@ public class UserController {
 
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring.xml");
         UserDAO userDAO = context.getBean(UserDAO.class);
+        FeedDAO feedDAO = context.getBean(FeedDAO.class);
         UserAuthDAO userAuthDAO = context.getBean(UserAuthDAO.class);
 
         UserAuth userAuth = userAuthDAO.findByToken(userToken);
@@ -151,6 +152,7 @@ public class UserController {
         }
 
         userAuthDAO.removeAllForUser(user);
+        feedDAO.removeAllForUser(user);
         userDAO.delete(user);
         context.close();
 

@@ -24,8 +24,8 @@ public class Feed {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(name = "title")
-    private String title;
+    @Column(name = "name")
+    private String name;
     @Column(name = "url")
     private String url;
     @Column(name = "id_user")
@@ -39,12 +39,12 @@ public class Feed {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return name;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getUrl() {
