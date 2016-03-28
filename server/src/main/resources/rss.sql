@@ -49,6 +49,22 @@ CREATE TABLE IF NOT EXISTS `user_auth` (
   `create_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+
+--
+-- Structure de la table `feed`
+--
+
+CREATE TABLE IF NOT EXISTS `feed` (
+`id` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `url` varchar(255) NOT NULL,
+  `id_user` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Index pour les tables exportées
+--
+
 --
 -- Index pour les tables exportées
 --
@@ -66,6 +82,12 @@ ALTER TABLE `user_auth`
  ADD PRIMARY KEY (`id`), ADD KEY `id_user` (`id_user`);
 
 --
+-- Index pour la table `feed`
+--
+ALTER TABLE `feed`
+ ADD PRIMARY KEY (`id`), ADD KEY `id_user` (`id_user`);
+
+--
 -- AUTO_INCREMENT pour les tables exportées
 --
 
@@ -80,6 +102,11 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `user_auth`
 MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
+-- AUTO_INCREMENT pour la table `feed`
+--
+ALTER TABLE `feed`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
 -- Contraintes pour les tables exportées
 --
 
@@ -88,7 +115,11 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 ALTER TABLE `user_auth`
 ADD CONSTRAINT `user_auth_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`);
-
+--
+-- Contraintes pour la table `feed`
+--
+ALTER TABLE `feed`
+ADD CONSTRAINT `feed_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`);
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
