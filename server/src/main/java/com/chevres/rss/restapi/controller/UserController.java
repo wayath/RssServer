@@ -44,15 +44,15 @@ public class UserController {
                     HttpStatus.BAD_REQUEST);
         }
 
-        boolean isAdmin = userDAO.isAdmin(userAuth.getIdUser());
-        if (!isAdmin) {
-            return new ResponseEntity(new ErrorMessageResponse("admin_required"),
-                    HttpStatus.FORBIDDEN);
-        }
-
         User user = userDAO.findByUsername(username);
         if (user == null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+
+        boolean isAdmin = userDAO.isAdmin(userAuth.getIdUser());
+        if (!isAdmin && (userAuth.getIdUser() != user.getId())) {
+            return new ResponseEntity(new ErrorMessageResponse("admin_required"),
+                    HttpStatus.FORBIDDEN);
         }
 
         return new ResponseEntity(new SuccessGetUserResponse(user.getUsername(), user.getType()),
