@@ -11,6 +11,7 @@ import com.chevres.rss.restapi.model.UserAuth;
 import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 
 /**
@@ -24,7 +25,7 @@ public class UserAuthDAOImpl extends AbstractGenericDAO implements UserAuthDAO {
         Session session = this.getSessionFactory().openSession();
 
         Criteria criteria = session.createCriteria(User.class);
-        User user = (User)criteria.add(Restrictions.eq("username", username)).uniqueResult();
+        User user = (User) criteria.add(Restrictions.eq("username", username)).uniqueResult();
 
         criteria = session.createCriteria(UserAuth.class);
         List<UserAuth> ua = criteria.add(Restrictions.eq("user_id", user.getId())).list();
@@ -33,18 +34,27 @@ public class UserAuthDAOImpl extends AbstractGenericDAO implements UserAuthDAO {
     }
 
     @Override
-    public void update(String username) {
-    }
-
-    @Override
     public UserAuth findByToken(String token) {
         Session session = this.getSessionFactory().openSession();
 
         Criteria criteria = session.createCriteria(UserAuth.class);
-        UserAuth ua = (UserAuth)criteria.add(Restrictions.eq("token", token)).uniqueResult();
+        UserAuth ua = (UserAuth) criteria.add(Restrictions.eq("token", token)).uniqueResult();
         session.close();
-        
+
         return ua;
+    }
+
+    @Override
+    public void removeAllForUser(User user) {
+        Session session = this.getSessionFactory().openSession();
+        Transaction tx = session.beginTransaction();
+
+        String id = Integer.toString(user.getId());
+        String hql = "delete from UserAuth where id_user= :userId";
+        session.createQuery(hql).setString("userId", id).executeUpdate();
+
+        tx.commit();
+        session.close();
     }
 
 }

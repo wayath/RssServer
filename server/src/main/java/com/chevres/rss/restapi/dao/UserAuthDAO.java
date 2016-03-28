@@ -5,6 +5,7 @@
  */
 package com.chevres.rss.restapi.dao;
 
+import com.chevres.rss.restapi.model.User;
 import com.chevres.rss.restapi.model.UserAuth;
 import java.util.List;
 
@@ -18,6 +19,5 @@ public interface UserAuthDAO extends GenericDAO {
 
     public UserAuth findByToken(String token);
     
-    public void update(String username);
-    
+    public void removeAllForUser(User user);
 }

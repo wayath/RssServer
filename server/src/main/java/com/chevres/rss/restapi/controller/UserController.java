@@ -117,5 +117,40 @@ public class UserController {
         return new ResponseEntity(new SuccessMessageResponse("success"),
                 HttpStatus.OK);
     }
+    
+    @RequestMapping(path = "/user/{username}", method = RequestMethod.DELETE)
+    @ResponseBody
+    public ResponseEntity<String> deleteUser(
+            @RequestHeader(value = "User-token") String userToken,
+            @PathVariable String username) {
+
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring.xml");
+        UserDAO userDAO = context.getBean(UserDAO.class);
+        UserAuthDAO userAuthDAO = context.getBean(UserAuthDAO.class);
+
+        UserAuth userAuth = userAuthDAO.findByToken(userToken);
+        if (userAuth == null) {
+            return new ResponseEntity(new ErrorMessageResponse("invalid_token"),
+                    HttpStatus.BAD_REQUEST);
+        }
+
+        User user = userDAO.findByUsername(username);
+        if (user == null) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+
+        boolean isAdmin = userDAO.isAdmin(userAuth.getIdUser());
+        if (!isAdmin && (userAuth.getIdUser() != user.getId())) {
+            return new ResponseEntity(new ErrorMessageResponse("admin_required"),
+                    HttpStatus.FORBIDDEN);
+        }
+
+        userAuthDAO.removeAllForUser(user);
+        userDAO.delete(user);
+        context.close();
+
+        return new ResponseEntity(new SuccessMessageResponse("success"),
+                HttpStatus.OK);
+    }
 
 }
