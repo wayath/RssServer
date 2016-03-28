@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS `user_auth` (
 
 CREATE TABLE IF NOT EXISTS `feed` (
 `id` int(11) NOT NULL,
-  `title` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
   `url` varchar(255) NOT NULL,
   `id_user` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
