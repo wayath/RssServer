@@ -7,6 +7,7 @@ package com.chevres.rss.restapi.dao.impl;
 
 import com.chevres.rss.restapi.dao.UserDAO;
 import com.chevres.rss.restapi.model.User;
+import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -100,6 +101,17 @@ public class UserDAOImpl extends AbstractGenericDAO implements UserDAO {
         session.close();
 
         return u.getType().equalsIgnoreCase(User.ADMIN_TYPE_LABEL);
+    }
+
+    @Override
+    public List<User> findEveryone() {
+        Session session = this.getSessionFactory().openSession();
+        Transaction tx = session.beginTransaction();
+        List<User> users = session.createCriteria(User.class).list();
+        tx.commit();
+        session.close();
+        
+        return users;
     }
 
 }

@@ -2,12 +2,17 @@ package com.chevres.rss.restapi.controller;
 
 import com.chevres.rss.restapi.controller.jsonresponse.ErrorMessageResponse;
 import com.chevres.rss.restapi.controller.jsonresponse.SuccessGetUserResponse;
+import com.chevres.rss.restapi.controller.jsonresponse.SuccessGetUserResponseWithId;
+import com.chevres.rss.restapi.controller.jsonresponse.SuccessGetUsersResponse;
 import com.chevres.rss.restapi.controller.jsonresponse.SuccessMessageResponse;
 import com.chevres.rss.restapi.controller.validators.UserUpdateValidator;
 import com.chevres.rss.restapi.dao.UserAuthDAO;
 import com.chevres.rss.restapi.dao.UserDAO;
 import com.chevres.rss.restapi.model.User;
 import com.chevres.rss.restapi.model.UserAuth;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.http.HttpStatus;
@@ -99,7 +104,7 @@ public class UserController {
         }
 
         boolean isAdmin = userDAO.isAdmin(userAuth.getIdUser());
-        if ((!isAdmin && (userAuth.getIdUser() != user.getId())) 
+        if ((!isAdmin && (userAuth.getIdUser() != user.getId()))
                 || (userRequest.getType() != null && !isAdmin)) {
             return new ResponseEntity(new ErrorMessageResponse("admin_required"),
                     HttpStatus.FORBIDDEN);
@@ -117,7 +122,7 @@ public class UserController {
         return new ResponseEntity(new SuccessMessageResponse("success"),
                 HttpStatus.OK);
     }
-    
+
     @RequestMapping(path = "/user/{username}", method = RequestMethod.DELETE)
     @ResponseBody
     public ResponseEntity<String> deleteUser(
@@ -150,6 +155,42 @@ public class UserController {
         context.close();
 
         return new ResponseEntity(new SuccessMessageResponse("success"),
+                HttpStatus.OK);
+    }
+
+    @RequestMapping(path = "/users", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<String> getUsers(
+            @RequestHeader(value = "User-token") String userToken) {
+
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring.xml");
+        UserDAO userDAO = context.getBean(UserDAO.class);
+        UserAuthDAO userAuthDAO = context.getBean(UserAuthDAO.class);
+
+        UserAuth userAuth = userAuthDAO.findByToken(userToken);
+        if (userAuth == null) {
+            return new ResponseEntity(new ErrorMessageResponse("invalid_token"),
+                    HttpStatus.BAD_REQUEST);
+        }
+
+        boolean isAdmin = userDAO.isAdmin(userAuth.getIdUser());
+        if (!isAdmin) {
+            return new ResponseEntity(new ErrorMessageResponse("admin_required"),
+                    HttpStatus.FORBIDDEN);
+        }
+
+        List<User> users = userDAO.findEveryone();
+        List<SuccessGetUserResponseWithId> finalList = new ArrayList<>();
+        for (User user : users) {
+            finalList.add(new SuccessGetUserResponseWithId(
+                    user.getId(),
+                    user.getUsername(),
+                    user.getType()));
+        }
+
+        context.close();
+
+        return new ResponseEntity(new SuccessGetUsersResponse(finalList),
                 HttpStatus.OK);
     }
 

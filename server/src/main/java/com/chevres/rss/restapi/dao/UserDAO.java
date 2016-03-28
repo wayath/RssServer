@@ -6,6 +6,7 @@
 package com.chevres.rss.restapi.dao;
 
 import com.chevres.rss.restapi.model.User;
+import java.util.List;
 
 /**
  *
@@ -18,6 +19,8 @@ public interface UserDAO extends GenericDAO {
     public User findByUsername(String username);
 
     public User findByUsernameAndPassword(String username, String password);
+    
+    public List<User> findEveryone();
     
     public void updateUser(User oldUser, User newUser, boolean isUpdaterAdmin);
     
