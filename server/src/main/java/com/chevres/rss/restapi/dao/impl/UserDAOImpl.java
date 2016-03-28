@@ -19,7 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  * @author anthony
  */
 public class UserDAOImpl extends AbstractGenericDAO implements UserDAO {
-
+    
     @Override
     public User findById(int id) {
         Session session = this.getSessionFactory().openSession();
@@ -28,6 +28,17 @@ public class UserDAOImpl extends AbstractGenericDAO implements UserDAO {
         tx.commit();
         session.close();
         return u;
+    }
+
+    @Override
+    public User findByUsername(String username) {
+        Session session = this.getSessionFactory().openSession();
+
+        Criteria criteria = session.createCriteria(User.class);
+        User user = (User) criteria.add(Restrictions.eq("username", username)).uniqueResult();
+
+        session.close();
+        return user;
     }
 
     @Override
@@ -73,6 +84,17 @@ public class UserDAOImpl extends AbstractGenericDAO implements UserDAO {
             return doesMatch ? user : null;
         }
         return null;
+    }
+
+    @Override
+    public boolean isAdmin(int idUser) {
+        Session session = this.getSessionFactory().openSession();
+        Transaction tx = session.beginTransaction();
+        User u = (User) session.get(User.class, idUser);
+        tx.commit();
+        session.close();
+
+        return u.getType().equalsIgnoreCase(User.ADMIN_TYPE_LABEL);
     }
 
 }

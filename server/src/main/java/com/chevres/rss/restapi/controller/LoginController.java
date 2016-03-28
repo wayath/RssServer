@@ -1,6 +1,6 @@
 package com.chevres.rss.restapi.controller;
 
-import com.chevres.rss.restapi.controller.jsonresponse.ErrorLoginResponse;
+import com.chevres.rss.restapi.controller.jsonresponse.ErrorMessageResponse;
 import com.chevres.rss.restapi.controller.jsonresponse.SuccessLoginResponse;
 import com.chevres.rss.restapi.controller.validators.LoginValidator;
 import com.chevres.rss.restapi.dao.UserAuthDAO;
@@ -47,7 +47,7 @@ public class LoginController {
         loginValidator.validate(user, bindingResult);
 
         if (bindingResult.hasErrors()) {
-            return new ResponseEntity(new ErrorLoginResponse("bad_params"),
+            return new ResponseEntity(new ErrorMessageResponse("bad_params"),
                     HttpStatus.BAD_REQUEST);
         }
 
@@ -56,7 +56,7 @@ public class LoginController {
 
         User foundUser = userDAO.findByUsernameAndPassword(user.getUsername(), user.getPassword());
         if (foundUser == null) {
-            return new ResponseEntity(new ErrorLoginResponse("bad_credentials"),
+            return new ResponseEntity(new ErrorMessageResponse("bad_credentials"),
                     HttpStatus.BAD_REQUEST);
         }
 

@@ -1,9 +1,8 @@
 package com.chevres.rss.restapi.controller;
 
-import com.chevres.rss.restapi.controller.jsonresponse.ErrorRegisterResponse;
+import com.chevres.rss.restapi.controller.jsonresponse.ErrorMessageResponse;
 import com.chevres.rss.restapi.controller.jsonresponse.SuccessRegisterResponse;
 import com.chevres.rss.restapi.controller.validators.RegisterValidator;
-import com.chevres.rss.restapi.dao.UserAuthDAO;
 import com.chevres.rss.restapi.dao.UserDAO;
 import com.chevres.rss.restapi.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,14 +45,14 @@ public class RegisterController {
         registerValidator.validate(user, bindingResult);
 
         if (bindingResult.hasErrors()) {
-            return new ResponseEntity(new ErrorRegisterResponse("bad_params"),
+            return new ResponseEntity(new ErrorMessageResponse("bad_params"),
                     HttpStatus.BAD_REQUEST);
         }
 
         UserDAO userDAO = context.getBean(UserDAO.class);
 
         if (userDAO.doesExist(user.getUsername())) {
-            return new ResponseEntity(new ErrorRegisterResponse("already_exist"),
+            return new ResponseEntity(new ErrorMessageResponse("already_exist"),
                     HttpStatus.BAD_REQUEST);
         }
 

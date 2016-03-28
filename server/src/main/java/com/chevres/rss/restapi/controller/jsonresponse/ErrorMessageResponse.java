@@ -9,13 +9,13 @@ package com.chevres.rss.restapi.controller.jsonresponse;
  *
  * @author anthony
  */
-public class ErrorLogoutResponse {
+public class ErrorMessageResponse {
     private final String message;
 
-    public ErrorLogoutResponse(String status) {
+    public ErrorMessageResponse(String status) {
         this.message = status;
     }
-    
+
     public String getMessage() {
         return message;
     }
