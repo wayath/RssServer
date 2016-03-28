@@ -28,7 +28,7 @@ public class User {
     @Column(name = "password")
     private String password;
     @Column(name = "type")
-    private String type = USER_TYPE_LABEL;
+    private String type;
 
     public String getPassword() {
         return password;

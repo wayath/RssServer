@@ -42,6 +42,6 @@
         <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
     </bean>
     
-    <bean id="registerValidator" class="com.chevres.rss.restapi.controller.validators.RegisterValidator" />
-    <bean id="loginValidator" class="com.chevres.rss.restapi.controller.validators.LoginValidator" />
+    <bean id="userValidator" class="com.chevres.rss.restapi.controller.validators.UserValidator" />
+    <bean id="userUpdateValidator" class="com.chevres.rss.restapi.controller.validators.UserUpdateValidator" />
 </beans>

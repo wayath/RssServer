@@ -1,8 +1,8 @@
 package com.chevres.rss.restapi.controller;
 
 import com.chevres.rss.restapi.controller.jsonresponse.ErrorMessageResponse;
-import com.chevres.rss.restapi.controller.jsonresponse.SuccessLogoutResponse;
-import com.chevres.rss.restapi.controller.validators.LoginValidator;
+import com.chevres.rss.restapi.controller.jsonresponse.SuccessMessageResponse;
+import com.chevres.rss.restapi.controller.validators.UserValidator;
 import com.chevres.rss.restapi.dao.UserAuthDAO;
 import com.chevres.rss.restapi.model.UserAuth;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class LogoutController {
 
     @Autowired
-    LoginValidator loginValidator;
+    UserValidator userValidator;
 
     @RequestMapping(path = "/logout", method = RequestMethod.POST)
     @ResponseBody
@@ -49,7 +49,7 @@ public class LogoutController {
 
         context.close();
 
-        return new ResponseEntity(new SuccessLogoutResponse("success"),
+        return new ResponseEntity(new SuccessMessageResponse("success"),
                 HttpStatus.OK);
     }
 }

@@ -10,17 +10,14 @@ package com.chevres.rss.restapi.controller.jsonobjects;
  * @author anthony
  */
 public class UserJson {
+
     private String username;
     private String password;
+    private String type;
 
     public UserJson() {
     }
 
-    public UserJson(String username, String password) {
-        this.username = username;
-        this.password = password;
-    }
-    
     public String getUsername() {
         return username;
     }
@@ -36,6 +33,13 @@ public class UserJson {
     public void setPassword(String password) {
         this.password = password;
     }
-    
-    
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
 }

@@ -6,6 +6,7 @@
 package com.chevres.rss.restapi.controller.validators;
 
 import com.chevres.rss.restapi.controller.jsonobjects.UserJson;
+import com.chevres.rss.restapi.model.User;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
@@ -16,7 +17,7 @@ import org.springframework.validation.Validator;
  * @author anthony
  */
 @Component
-public class LoginValidator implements Validator {
+public class UserUpdateValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> type) {
@@ -25,8 +26,18 @@ public class LoginValidator implements Validator {
 
     @Override
     public void validate(Object o, Errors errors) {
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "error.username", "username is required.");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "error.password", "password is required.");
+        User user = (User) o;
+        if (user.getType() != null
+                && (!user.getType().equals(User.ADMIN_TYPE_LABEL)
+                && !user.getType().equals(User.USER_TYPE_LABEL))) {
+            errors.rejectValue("type", "error.type");
+        }
+        if (user.getUsername() != null) {
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "error.username");
+        }
+        if (user.getPassword() != null) {
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "error.password");
+        }
     }
-    
+
 }

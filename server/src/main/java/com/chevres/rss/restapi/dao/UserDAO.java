@@ -19,7 +19,7 @@ public interface UserDAO extends GenericDAO {
 
     public User findByUsernameAndPassword(String username, String password);
     
-    public void updatePassword(int id, String password);
+    public void updateUser(User oldUser, User newUser, boolean isUpdaterAdmin);
     
     public boolean doesExist(String username);
     

@@ -6,6 +6,7 @@
 package com.chevres.rss.restapi.controller.validators;
 
 import com.chevres.rss.restapi.controller.jsonobjects.UserJson;
+import com.chevres.rss.restapi.model.User;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
@@ -16,7 +17,7 @@ import org.springframework.validation.Validator;
  * @author anthony
  */
 @Component
-public class RegisterValidator implements Validator {
+public class UserValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> type) {
@@ -28,5 +29,5 @@ public class RegisterValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "error.username", "username is required.");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "error.password", "password is required.");
     }
-    
+
 }

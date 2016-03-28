@@ -19,7 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  * @author anthony
  */
 public class UserDAOImpl extends AbstractGenericDAO implements UserDAO {
-    
+
     @Override
     public User findById(int id) {
         Session session = this.getSessionFactory().openSession();
@@ -42,14 +42,23 @@ public class UserDAOImpl extends AbstractGenericDAO implements UserDAO {
     }
 
     @Override
-    public void updatePassword(int id, String password) {
+    public void updateUser(User oldUser, User newUser, boolean isUpdaterAdmin) {
         Session session = this.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
-        String hqlUpdate = "UPDATE user set password = :password where id = :id";
-        session.createQuery(hqlUpdate)
-                .setString("password", password)
-                .setString("id", Integer.toString(id))
-                .executeUpdate();
+
+        if (newUser.getUsername() != null) {
+            oldUser.setUsername(newUser.getUsername());
+        }
+        if (newUser.getPassword() != null) {
+            PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            String hashedPassword = passwordEncoder.encode(newUser.getPassword());
+            oldUser.setPassword(hashedPassword);
+        }
+        if (isUpdaterAdmin && newUser.getType() != null) {
+            oldUser.setType(newUser.getType());
+        }
+
+        session.update(oldUser);
         tx.commit();
         session.close();
     }
@@ -63,11 +72,7 @@ public class UserDAOImpl extends AbstractGenericDAO implements UserDAO {
 
         session.close();
 
-        if (user != null) {
-            return true;
-        }
-
-        return false;
+        return user != null;
     }
 
     @Override

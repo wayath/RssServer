@@ -1,8 +1,8 @@
 package com.chevres.rss.restapi.controller;
 
 import com.chevres.rss.restapi.controller.jsonresponse.ErrorMessageResponse;
-import com.chevres.rss.restapi.controller.jsonresponse.SuccessRegisterResponse;
-import com.chevres.rss.restapi.controller.validators.RegisterValidator;
+import com.chevres.rss.restapi.controller.jsonresponse.SuccessMessageResponse;
+import com.chevres.rss.restapi.controller.validators.UserValidator;
 import com.chevres.rss.restapi.dao.UserDAO;
 import com.chevres.rss.restapi.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +32,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class RegisterController {
 
     @Autowired
-    RegisterValidator registerValidator;
+    UserValidator userValidator;
 
     @RequestMapping(path = "/register", method = RequestMethod.POST)
     @ResponseBody
@@ -42,7 +42,7 @@ public class RegisterController {
 
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring.xml");
 
-        registerValidator.validate(user, bindingResult);
+        userValidator.validate(user, bindingResult);
 
         if (bindingResult.hasErrors()) {
             return new ResponseEntity(new ErrorMessageResponse("bad_params"),
@@ -59,11 +59,12 @@ public class RegisterController {
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String hashedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(hashedPassword);
+        user.setType(User.USER_TYPE_LABEL);
         userDAO.create(user);
 
         context.close();
 
-        return new ResponseEntity(new SuccessRegisterResponse("success"),
+        return new ResponseEntity(new SuccessMessageResponse("success"),
                 HttpStatus.OK);
     }
 }

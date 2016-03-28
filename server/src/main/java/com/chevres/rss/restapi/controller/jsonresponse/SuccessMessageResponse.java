@@ -9,13 +9,13 @@ package com.chevres.rss.restapi.controller.jsonresponse;
  *
  * @author anthony
  */
-public class SuccessLogoutResponse {
+public class SuccessMessageResponse {
     private final String message;
 
-    public SuccessLogoutResponse(String status) {
+    public SuccessMessageResponse(String status) {
         this.message = status;
     }
-    
+
     public String getMessage() {
         return message;
     }
