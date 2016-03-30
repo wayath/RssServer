@@ -20,5 +20,7 @@ public interface FeedDAO extends GenericDAO {
     
     public void removeAllForUser(User user);
     
+    public Feed findById(UserAuth userAuth, int id);
+    
     public List<Feed> findAll(UserAuth userAuth);
 }

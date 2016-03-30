@@ -60,4 +60,18 @@ public class FeedDAOImpl extends AbstractGenericDAO implements FeedDAO {
         return feeds;
     }
 
+    @Override
+    public Feed findById(UserAuth userAuth, int id) {
+        Session session = this.getSessionFactory().openSession();
+        Transaction tx = session.beginTransaction();
+
+        Criteria criteria = session.createCriteria(Feed.class);
+        Feed f = (Feed) criteria.add(Restrictions.eq("idUser", userAuth.getIdUser()))
+                .add(Restrictions.eq("id", id)).uniqueResult();
+        tx.commit();
+        session.close();
+
+        return f;
+    }
+
 }
