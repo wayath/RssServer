@@ -74,4 +74,16 @@ public class FeedDAOImpl extends AbstractGenericDAO implements FeedDAO {
         return f;
     }
 
+    @Override
+    public void updateName(Feed oldFeed, Feed newFeed) {
+        Session session = this.getSessionFactory().openSession();
+        Transaction tx = session.beginTransaction();
+
+        oldFeed.setName(newFeed.getName());
+        
+        session.update(oldFeed);
+        tx.commit();
+        session.close();
+    }
+
 }
