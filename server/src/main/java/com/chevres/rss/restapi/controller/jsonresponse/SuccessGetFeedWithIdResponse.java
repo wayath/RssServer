@@ -9,26 +9,28 @@ package com.chevres.rss.restapi.controller.jsonresponse;
  *
  * @author anthony
  */
-public class SuccessGetUserResponseWithId {
+public class SuccessGetFeedWithIdResponse {
     private final int id;
-    private final String username;
-    private final String type;
+    private final String name;
+    private final String url;
 
-    public SuccessGetUserResponseWithId(int id, String username, String type) {
+    public SuccessGetFeedWithIdResponse(int id, String name, String url) {
         this.id = id;
-        this.username = username;
-        this.type = type;
+        this.name = name;
+        this.url = url;
     }
 
     public int getId() {
         return id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getName() {
+        return name;
     }
 
-    public String getType() {
-        return type;
+    public String getUrl() {
+        return url;
     }
+    
+    
 }

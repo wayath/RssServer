@@ -11,15 +11,15 @@ import java.util.List;
  *
  * @author anthony
  */
-public class SuccessGetUsersResponse {
-    private final List<SuccessGetUserWithIdResponse> users;
+public class SuccessGetFeedsResponse {
+    private final List<SuccessGetFeedWithIdResponse> feeds;
 
-    public SuccessGetUsersResponse(List<SuccessGetUserWithIdResponse> users) {
-        this.users = users;
+    public SuccessGetFeedsResponse(List<SuccessGetFeedWithIdResponse> feeds) {
+        this.feeds = feeds;
     }
 
-    public List<SuccessGetUserWithIdResponse> getUsers() {
-        return users;
+    public List<SuccessGetFeedWithIdResponse> getFeeds() {
+        return feeds;
     }
     
 }

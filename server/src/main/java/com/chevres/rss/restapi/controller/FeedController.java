@@ -7,11 +7,15 @@ package com.chevres.rss.restapi.controller;
 
 import com.chevres.rss.restapi.controller.jsonresponse.ErrorMessageResponse;
 import com.chevres.rss.restapi.controller.jsonresponse.SuccessFeedInfoResponse;
+import com.chevres.rss.restapi.controller.jsonresponse.SuccessGetFeedWithIdResponse;
+import com.chevres.rss.restapi.controller.jsonresponse.SuccessGetFeedsResponse;
 import com.chevres.rss.restapi.controller.validators.FeedValidator;
 import com.chevres.rss.restapi.dao.FeedDAO;
 import com.chevres.rss.restapi.dao.UserAuthDAO;
 import com.chevres.rss.restapi.model.Feed;
 import com.chevres.rss.restapi.model.UserAuth;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.http.HttpStatus;
@@ -57,7 +61,7 @@ public class FeedController {
                     HttpStatus.BAD_REQUEST);
         }
 
-        if (feedDAO.doesExist(feed.getUrl())) {
+        if (feedDAO.doesExist(userAuth, feed.getUrl())) {
             return new ResponseEntity(new ErrorMessageResponse("already_exist"),
                     HttpStatus.BAD_REQUEST);
         }
@@ -69,6 +73,37 @@ public class FeedController {
 
         return new ResponseEntity(new SuccessFeedInfoResponse(
                 feed.getId(), feed.getName(), feed.getUrl()),
+                HttpStatus.OK);
+
+    }
+   
+    @RequestMapping(path = "/feeds", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<String> getFeeds(
+            @RequestHeader(value = "User-token") String userToken) {
+
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring.xml");
+        FeedDAO feedDAO = context.getBean(FeedDAO.class);
+        UserAuthDAO userAuthDAO = context.getBean(UserAuthDAO.class);
+
+        UserAuth userAuth = userAuthDAO.findByToken(userToken);
+        if (userAuth == null) {
+            return new ResponseEntity(new ErrorMessageResponse("invalid_token"),
+                    HttpStatus.BAD_REQUEST);
+        }
+
+        List<Feed> feeds = feedDAO.findAll(userAuth);
+        List<SuccessGetFeedWithIdResponse> finalList = new ArrayList<>();
+        for (Feed feed : feeds) {
+            finalList.add(new SuccessGetFeedWithIdResponse(
+                    feed.getId(),
+                    feed.getName(),
+                    feed.getUrl()));
+        }
+        
+        context.close();
+
+        return new ResponseEntity(new SuccessGetFeedsResponse(finalList),
                 HttpStatus.OK);
 
     }

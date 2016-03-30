@@ -5,7 +5,10 @@
  */
 package com.chevres.rss.restapi.dao;
 
+import com.chevres.rss.restapi.model.Feed;
 import com.chevres.rss.restapi.model.User;
+import com.chevres.rss.restapi.model.UserAuth;
+import java.util.List;
 
 /**
  *
@@ -13,7 +16,9 @@ import com.chevres.rss.restapi.model.User;
  */
 public interface FeedDAO extends GenericDAO {
     
-    public boolean doesExist(String url);
+    public boolean doesExist(UserAuth userAuth, String url);
     
     public void removeAllForUser(User user);
+    
+    public List<Feed> findAll(UserAuth userAuth);
 }

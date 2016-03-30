@@ -2,7 +2,7 @@ package com.chevres.rss.restapi.controller;
 
 import com.chevres.rss.restapi.controller.jsonresponse.ErrorMessageResponse;
 import com.chevres.rss.restapi.controller.jsonresponse.SuccessGetUserResponse;
-import com.chevres.rss.restapi.controller.jsonresponse.SuccessGetUserResponseWithId;
+import com.chevres.rss.restapi.controller.jsonresponse.SuccessGetUserWithIdResponse;
 import com.chevres.rss.restapi.controller.jsonresponse.SuccessGetUsersResponse;
 import com.chevres.rss.restapi.controller.jsonresponse.SuccessMessageResponse;
 import com.chevres.rss.restapi.controller.validators.UserUpdateValidator;
@@ -182,9 +182,9 @@ public class UserController {
         }
 
         List<User> users = userDAO.findEveryone();
-        List<SuccessGetUserResponseWithId> finalList = new ArrayList<>();
+        List<SuccessGetUserWithIdResponse> finalList = new ArrayList<>();
         for (User user : users) {
-            finalList.add(new SuccessGetUserResponseWithId(
+            finalList.add(new SuccessGetUserWithIdResponse(
                     user.getId(),
                     user.getUsername(),
                     user.getType()));
