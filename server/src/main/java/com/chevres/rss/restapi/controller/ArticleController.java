@@ -65,6 +65,8 @@ public class ArticleController {
                     article.getPreviewContent(),
                     article.getFullContent()));
         }
+        
+        context.close();
         return new ResponseEntity(new SuccessGetFeedArticlesResponse(finalList),
                 HttpStatus.OK);
     }
@@ -105,6 +107,8 @@ public class ArticleController {
                     article.getPreviewContent(),
                     article.getFullContent()));
         }
+        
+        context.close();
         return new ResponseEntity(new SuccessGetFeedArticlesResponse(finalList),
                 HttpStatus.OK);
     }
@@ -117,7 +121,6 @@ public class ArticleController {
 
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring.xml");
         UserAuthDAO userAuthDAO = context.getBean(UserAuthDAO.class);
-        FeedDAO feedDAO = context.getBean(FeedDAO.class);
         ArticleDAO articleDAO = context.getBean(ArticleDAO.class);
 
         UserAuth userAuth = userAuthDAO.findByToken(userToken);
@@ -132,6 +135,8 @@ public class ArticleController {
         }
 
         articleDAO.markAsRead(article);
+        
+        context.close();
         return new ResponseEntity(new SuccessMessageResponse("success"),
                 HttpStatus.OK);
     }

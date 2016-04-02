@@ -23,4 +23,6 @@ public interface ArticleDAO extends GenericDAO {
     public List<Article> findArticlesByFeedAndPageId(Feed feed, int pageNumber);
     
     public void markAsRead(Article article);
+    
+    public void markAllArticlesInFeedAsRead(Feed feed);
 }

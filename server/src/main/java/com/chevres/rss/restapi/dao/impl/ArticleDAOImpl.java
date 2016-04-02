@@ -12,6 +12,7 @@ import com.chevres.rss.restapi.model.Feed;
 import com.chevres.rss.restapi.model.UserAuth;
 import java.util.List;
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Order;
@@ -93,5 +94,25 @@ public class ArticleDAOImpl extends AbstractGenericDAO implements ArticleDAO {
         tx.commit();
         session.close();
 
+    }
+
+    @Override
+    public void markAllArticlesInFeedAsRead(Feed feed) {
+        Session session = this.getSessionFactory().openSession();
+        Transaction tx = session.beginTransaction();
+
+        ArticleState articleState = new ArticleState();
+        articleState.setLabel(ArticleState.READ_LABEL);
+        articleState.setStatus(ArticleState.READ_STATUS);
+
+        String hql = "update Article set status = :newState "
+                + "where feed = :feedObject";
+        Query query = session.createQuery(hql);
+        query.setParameter("newState", articleState);
+        query.setParameter("feedObject", feed);
+        query.executeUpdate();
+        
+        tx.commit();
+        session.close();
     }
 }
