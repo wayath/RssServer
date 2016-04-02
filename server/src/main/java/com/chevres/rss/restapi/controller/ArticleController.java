@@ -8,6 +8,7 @@ package com.chevres.rss.restapi.controller;
 import com.chevres.rss.restapi.controller.jsonresponse.ErrorMessageResponse;
 import com.chevres.rss.restapi.controller.jsonresponse.SuccessGetArticleWithIdResponse;
 import com.chevres.rss.restapi.controller.jsonresponse.SuccessGetFeedArticlesResponse;
+import com.chevres.rss.restapi.controller.jsonresponse.SuccessMessageResponse;
 import com.chevres.rss.restapi.dao.ArticleDAO;
 import com.chevres.rss.restapi.dao.FeedDAO;
 import com.chevres.rss.restapi.dao.UserAuthDAO;
@@ -105,6 +106,33 @@ public class ArticleController {
                     article.getFullContent()));
         }
         return new ResponseEntity(new SuccessGetFeedArticlesResponse(finalList),
+                HttpStatus.OK);
+    }
+
+    @RequestMapping(path = "/article/as_read/{articleId}", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<String> markArticleAsRead(
+            @RequestHeader(value = "User-token") String userToken,
+            @PathVariable int articleId) {
+
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring.xml");
+        UserAuthDAO userAuthDAO = context.getBean(UserAuthDAO.class);
+        FeedDAO feedDAO = context.getBean(FeedDAO.class);
+        ArticleDAO articleDAO = context.getBean(ArticleDAO.class);
+
+        UserAuth userAuth = userAuthDAO.findByToken(userToken);
+        if (userAuth == null) {
+            return new ResponseEntity(new ErrorMessageResponse("invalid_token"),
+                    HttpStatus.BAD_REQUEST);
+        }
+
+        Article article = articleDAO.findById(userAuth, articleId);
+        if (article == null) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+
+        articleDAO.markAsRead(article);
+        return new ResponseEntity(new SuccessMessageResponse("success"),
                 HttpStatus.OK);
     }
 }

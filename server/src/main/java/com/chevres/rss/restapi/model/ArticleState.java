@@ -21,6 +21,9 @@ import javax.persistence.Table;
 @Table(name = "article_state")
 public class ArticleState implements Serializable {
 
+    public static final boolean READ_STATUS = true;
+    public static final String READ_LABEL = "read";
+
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
