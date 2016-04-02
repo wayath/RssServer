@@ -5,6 +5,7 @@
  */
 package com.chevres.rss.restapi.model;
 
+import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,19 +18,18 @@ import javax.persistence.Table;
  * @author anthony
  */
 @Entity
-@Table(name = "feed")
-public class Feed {
+@Table(name = "article_state")
+public class ArticleState implements Serializable {
 
     @Id
-    @Column(name = "id", columnDefinition = "id")
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(name = "name")
-    private String name;
-    @Column(name = "url")
-    private String url;
-    @Column(name = "id_user")
-    private int idUser;
+
+    @Column(name = "label")
+    private String label;
+    @Column(name = "status")
+    private boolean status;
 
     public int getId() {
         return id;
@@ -39,28 +39,20 @@ public class Feed {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getLabel() {
+        return label;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setLabel(String label) {
+        this.label = label;
     }
 
-    public String getUrl() {
-        return url;
+    public boolean getState() {
+        return status;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setStatus(boolean status) {
+        this.status = status;
     }
-
-    public int getIdUser() {
-        return idUser;
-    }
-
-    public void setIdUser(int idUser) {
-        this.idUser = idUser;
-    }
-
+    
 }

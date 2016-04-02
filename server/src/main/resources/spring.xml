@@ -24,13 +24,15 @@
                 <value>com.chevres.rss.restapi.model.User</value>
                 <value>com.chevres.rss.restapi.model.UserAuth</value>
                 <value>com.chevres.rss.restapi.model.Feed</value>
+                <value>com.chevres.rss.restapi.model.Article</value>
+                <value>com.chevres.rss.restapi.model.ArticleState</value>
             </list>
         </property>
         <property name="hibernateProperties">
             <props>
                 <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
                 <prop key="hibernate.current_session_context_class">thread</prop>
-                <prop key="hibernate.show_sql">false</prop>
+                <prop key="hibernate.show_sql">true</prop>
             </props>
         </property>
     </bean>
@@ -43,6 +45,9 @@
         <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
     </bean>
     <bean id="feedDAO" class="com.chevres.rss.restapi.dao.impl.FeedDAOImpl">
+        <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+    </bean>
+    <bean id="articleDAO" class="com.chevres.rss.restapi.dao.impl.ArticleDAOImpl">
         <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
     </bean>
     
