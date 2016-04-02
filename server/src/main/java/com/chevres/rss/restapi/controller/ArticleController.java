@@ -67,4 +67,44 @@ public class ArticleController {
         return new ResponseEntity(new SuccessGetFeedArticlesResponse(finalList),
                 HttpStatus.OK);
     }
+
+    @RequestMapping(path = "/feed/{feedId}/articles/{pageNumber}", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<String> getFeedArticles(
+            @RequestHeader(value = "User-token") String userToken,
+            @PathVariable int feedId,
+            @PathVariable int pageNumber) {
+
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring.xml");
+        UserAuthDAO userAuthDAO = context.getBean(UserAuthDAO.class);
+        FeedDAO feedDAO = context.getBean(FeedDAO.class);
+        ArticleDAO articleDAO = context.getBean(ArticleDAO.class);
+
+        UserAuth userAuth = userAuthDAO.findByToken(userToken);
+        if (userAuth == null) {
+            return new ResponseEntity(new ErrorMessageResponse("invalid_token"),
+                    HttpStatus.BAD_REQUEST);
+        }
+
+        Feed feed = feedDAO.findById(userAuth, feedId);
+        if (feed == null) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+
+        List<Article> articles = articleDAO.findArticlesByFeedAndPageId(feed, pageNumber);
+
+        List<SuccessGetArticleWithIdResponse> finalList = new ArrayList<>();
+        for (Article article : articles) {
+            finalList.add(new SuccessGetArticleWithIdResponse(
+                    article.getId(),
+                    article.getFeed().getId(),
+                    article.getStatus().getLabel(),
+                    article.getLink(),
+                    article.getTitle(),
+                    article.getPreviewContent(),
+                    article.getFullContent()));
+        }
+        return new ResponseEntity(new SuccessGetFeedArticlesResponse(finalList),
+                HttpStatus.OK);
+    }
 }

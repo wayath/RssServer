@@ -16,4 +16,6 @@ import java.util.List;
 public interface ArticleDAO extends GenericDAO {
 
     public List<Article> findArticlesByPageId(List<Feed> feeds, int pageNumber);
+    
+    public List<Article> findArticlesByFeedAndPageId(Feed feed, int pageNumber);
 }
