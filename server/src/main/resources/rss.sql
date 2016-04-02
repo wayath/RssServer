@@ -62,12 +62,37 @@ CREATE TABLE IF NOT EXISTS `feed` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Index pour les tables exportées
+-- Structure de la table `article`
 --
 
+CREATE TABLE IF NOT EXISTS `article` (
+`id` int(11) NOT NULL,
+  `id_feed` int(11) NOT NULL,
+  `link` varchar(255) NOT NULL,
+  `title` varchar(500) NOT NULL,
+  `preview` varchar(500) NOT NULL,
+  `full_content` text NOT NULL,
+  `status` tinyint(1) NOT NULL,
+  `pub_date` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 --
--- Index pour les tables exportées
+-- Structure de la table `article_state`
 --
+
+CREATE TABLE IF NOT EXISTS `article_state` (
+`id` int(11) NOT NULL,
+  `label` varchar(255) NOT NULL,
+  `status` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Contenu de la table `article_state`
+--
+
+INSERT INTO `article_state` (`id`, `label`, `status`) VALUES
+(1, 'new', 0),
+(2, 'read', 1);
 
 --
 -- Index pour la table `user`
@@ -86,6 +111,18 @@ ALTER TABLE `user_auth`
 --
 ALTER TABLE `feed`
  ADD PRIMARY KEY (`id`), ADD KEY `id_user` (`id_user`);
+
+--
+-- Index pour la table `article`
+--
+ALTER TABLE `article`
+ ADD PRIMARY KEY (`id`), ADD KEY `status` (`status`), ADD KEY `id_feed` (`id_feed`);
+
+--
+-- Index pour la table `article_state`
+--
+ALTER TABLE `article_state`
+ ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `state` (`status`), ADD KEY `status` (`status`);
 
 --
 -- AUTO_INCREMENT pour les tables exportées
@@ -107,6 +144,16 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `feed`
 MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
+-- AUTO_INCREMENT pour la table `article`
+--
+ALTER TABLE `article`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT pour la table `article_state`
+--
+ALTER TABLE `article_state`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
 -- Contraintes pour les tables exportées
 --
 
@@ -120,6 +167,12 @@ ADD CONSTRAINT `user_auth_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`id
 --
 ALTER TABLE `feed`
 ADD CONSTRAINT `feed_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`);
+--
+-- Contraintes pour la table `article`
+--
+ALTER TABLE `article`
+ADD CONSTRAINT `article_ibfk_1` FOREIGN KEY (`id_feed`) REFERENCES `feed` (`id`),
+ADD CONSTRAINT `article_ibfk_2` FOREIGN KEY (`status`) REFERENCES `article_state` (`status`);
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
