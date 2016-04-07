@@ -25,4 +25,8 @@ public interface FeedDAO extends GenericDAO {
     public List<Feed> findAll(UserAuth userAuth);
     
     public void updateName(Feed oldFeed, Feed newFeed);
+    
+    public int getNewArticles(List<Feed> feeds);
+    
+    public int getNewArticlesByFeed(Feed feed);
 }

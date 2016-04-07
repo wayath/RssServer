@@ -73,10 +73,12 @@ public class FeedController {
         feed.setIdUser(userAuth.getIdUser());
         feedDAO.create(feed);
 
+        int newArticles = feedDAO.getNewArticlesByFeed(feed);
+        
         context.close();
 
         return new ResponseEntity(new SuccessFeedInfoResponse(
-                feed.getId(), feed.getName(), feed.getUrl()),
+                feed.getId(), feed.getName(), feed.getUrl(), newArticles),
                 HttpStatus.OK);
 
     }
@@ -105,9 +107,11 @@ public class FeedController {
                     feed.getUrl()));
         }
 
+        int nbNewArticles = feedDAO.getNewArticles(feeds);
+        
         context.close();
 
-        return new ResponseEntity(new SuccessGetFeedsResponse(finalList),
+        return new ResponseEntity(new SuccessGetFeedsResponse(finalList, nbNewArticles),
                 HttpStatus.OK);
 
     }
@@ -133,10 +137,12 @@ public class FeedController {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
 
+        int newArticles = feedDAO.getNewArticlesByFeed(feed);
+        
         context.close();
 
         return new ResponseEntity(new SuccessFeedInfoResponse(
-                feed.getId(), feed.getName(), feed.getUrl()),
+                feed.getId(), feed.getName(), feed.getUrl(), newArticles),
                 HttpStatus.OK);
     }
 
@@ -168,10 +174,13 @@ public class FeedController {
         }
 
         feedDAO.updateName(feed, feedRequest);
+        int newArticles = feedDAO.getNewArticlesByFeed(feed);
+
         context.close();
 
+        
         return new ResponseEntity(new SuccessFeedInfoResponse(
-                feed.getId(), feed.getName(), feed.getUrl()),
+                feed.getId(), feed.getName(), feed.getUrl(), newArticles),
                 HttpStatus.OK);
     }
 

@@ -6,6 +6,8 @@
 package com.chevres.rss.restapi.dao.impl;
 
 import com.chevres.rss.restapi.dao.FeedDAO;
+import com.chevres.rss.restapi.model.Article;
+import com.chevres.rss.restapi.model.ArticleState;
 import com.chevres.rss.restapi.model.Feed;
 import com.chevres.rss.restapi.model.User;
 import com.chevres.rss.restapi.model.UserAuth;
@@ -80,10 +82,54 @@ public class FeedDAOImpl extends AbstractGenericDAO implements FeedDAO {
         Transaction tx = session.beginTransaction();
 
         oldFeed.setName(newFeed.getName());
-        
+
         session.update(oldFeed);
         tx.commit();
         session.close();
+    }
+
+    @Override
+    public int getNewArticles(List<Feed> feeds) {
+        Session session = this.getSessionFactory().openSession();
+        Transaction tx = session.beginTransaction();
+
+        ArticleState newArticle = new ArticleState();
+        newArticle.setLabel(ArticleState.NEW_LABEL);
+        newArticle.setStatus(ArticleState.NEW_STATUS);
+        
+        
+        Criteria criteria = session.createCriteria(Article.class);
+        int newArticles = criteria
+                .add(Restrictions.in("feed", feeds))
+                .add(Restrictions.eq("status", newArticle))
+                .list().size();
+        
+        tx.commit();
+        session.close();
+        
+        return newArticles;
+    }
+
+    @Override
+    public int getNewArticlesByFeed(Feed feed) {
+         Session session = this.getSessionFactory().openSession();
+        Transaction tx = session.beginTransaction();
+
+        ArticleState newArticle = new ArticleState();
+        newArticle.setLabel(ArticleState.NEW_LABEL);
+        newArticle.setStatus(ArticleState.NEW_STATUS);
+        
+        
+        Criteria criteria = session.createCriteria(Article.class);
+        int newArticles = criteria
+                .add(Restrictions.eq("feed", feed))
+                .add(Restrictions.eq("status", newArticle))
+                .list().size();
+        
+        tx.commit();
+        session.close();
+        
+        return newArticles;
     }
 
 }

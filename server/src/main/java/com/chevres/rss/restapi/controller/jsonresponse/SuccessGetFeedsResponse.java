@@ -5,6 +5,7 @@
  */
 package com.chevres.rss.restapi.controller.jsonresponse;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /**
@@ -12,14 +13,21 @@ import java.util.List;
  * @author anthony
  */
 public class SuccessGetFeedsResponse {
-    private final List<SuccessGetFeedWithIdResponse> feeds;
 
-    public SuccessGetFeedsResponse(List<SuccessGetFeedWithIdResponse> feeds) {
+    private final List<SuccessGetFeedWithIdResponse> feeds;
+    private final int newArticles;
+
+    public SuccessGetFeedsResponse(List<SuccessGetFeedWithIdResponse> feeds, int newArticles) {
         this.feeds = feeds;
+        this.newArticles = newArticles;
     }
 
     public List<SuccessGetFeedWithIdResponse> getFeeds() {
         return feeds;
     }
-    
+
+    @JsonProperty("new_articles")
+    public int getNewArticles() {
+        return newArticles;
+    }
 }

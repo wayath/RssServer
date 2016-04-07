@@ -22,7 +22,9 @@ import javax.persistence.Table;
 public class ArticleState implements Serializable {
 
     public static final boolean READ_STATUS = true;
+    public static final boolean NEW_STATUS = false;
     public static final String READ_LABEL = "read";
+    public static final String NEW_LABEL = "new";
 
     @Id
     @Column(name = "id")
