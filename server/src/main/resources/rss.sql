@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS `article` (
   `id_feed` int(11) NOT NULL,
   `link` varchar(255) NOT NULL,
   `title` varchar(500) NOT NULL,
-  `preview` varchar(500) NOT NULL,
+  `preview` text NOT NULL,
   `full_content` text NOT NULL,
   `status` tinyint(1) NOT NULL,
   `pub_date` timestamp NULL DEFAULT NULL

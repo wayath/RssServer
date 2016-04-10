@@ -15,6 +15,8 @@ import java.util.List;
  * @author anthony
  */
 public interface ArticleDAO extends GenericDAO {
+    
+    public Boolean doesExist(Feed feed, String link);
 
     public Article findById(UserAuth userAuth, int id);
     

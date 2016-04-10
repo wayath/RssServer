@@ -50,6 +50,9 @@
     <bean id="articleDAO" class="com.chevres.rss.restapi.dao.impl.ArticleDAOImpl">
         <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
     </bean>
+    <bean id="articleStateDAO" class="com.chevres.rss.restapi.dao.impl.ArticleStateDAOImpl">
+        <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+    </bean>
     
     <bean id="userValidator" class="com.chevres.rss.restapi.controller.validators.UserValidator" />
     <bean id="userUpdateValidator" class="com.chevres.rss.restapi.controller.validators.UserUpdateValidator" />

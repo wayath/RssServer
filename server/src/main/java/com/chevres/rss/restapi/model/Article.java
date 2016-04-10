@@ -36,7 +36,7 @@ public class Article implements Serializable {
     private String link;
     @Column(name = "title")
     private String title;
-    @Column(name = "preview")
+    @Column(name = "preview", columnDefinition="TEXT")
     private String previewContent;
     @Column(name = "full_content", columnDefinition="TEXT")
     private String fullContent;
@@ -110,6 +110,7 @@ public class Article implements Serializable {
         this.pubDate = pubDate;
     }
     
-    
-
+    public String toString() {
+        return ("==> BEGIN ARTICLE:\n"+"title: "+this.title+"\nlink: "+this.link+"\ndescription: "+this.previewContent+"\n<== END ARTICLE");
+    }
 }

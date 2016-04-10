@@ -27,6 +27,17 @@ public class ArticleDAOImpl extends AbstractGenericDAO implements ArticleDAO {
     private static final int ARTICLE_BY_PAGE = 10;
 
     @Override
+    public Boolean doesExist(Feed feed, String link) {
+        Session session = this.getSessionFactory().openSession();
+        
+        Criteria criteria = session.createCriteria(Article.class);
+        Article article = (Article) criteria.add(Restrictions.eq("link", link))
+                .add(Restrictions.eq("feed", feed)).uniqueResult();
+        session.close();
+        return (article != null);
+    }
+    
+    @Override
     public Article findById(UserAuth userAuth, int id) {
         Session session = this.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
