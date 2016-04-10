@@ -433,3 +433,14 @@ Marquer un article comme lu
           {
               message: "success"
           }
+
+## Update all feeds for all users [/worker/refresh]
+
+### Update all feeds for all users [GET]
+Updater les feeds pour tous les users (a n'utiliser que pour dev)
++ Request (application/json)
++ Response 200 (application/json)
+
+          {
+              message: "success"
+          }
