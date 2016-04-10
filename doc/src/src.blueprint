@@ -264,7 +264,8 @@ Récupérer la liste des flux
               "feeds" : [
                   {id: id, name: "name", url: "url"},
                   ...
-              ]
+              ],
+              "new_articles": 3
           }
 
 
@@ -312,7 +313,8 @@ Récupérer les infos d'un flux
           {
               id: id,
               name: "name",
-              url: "url"
+              url: "url",
+              new_articles: 3
           }
 
 ### Update feed infos [PUT]
