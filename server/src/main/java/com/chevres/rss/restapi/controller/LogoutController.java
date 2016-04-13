@@ -10,6 +10,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,6 +31,7 @@ public class LogoutController {
     @Autowired
     UserValidator userValidator;
 
+    @CrossOrigin
     @RequestMapping(path = "/logout", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<String> logout(

@@ -21,6 +21,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,6 +35,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class ArticleController {
 
+    @CrossOrigin
     @RequestMapping(path = "/feeds/articles/{pageNumber}", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<String> getArticles(
@@ -71,6 +73,7 @@ public class ArticleController {
                 HttpStatus.OK);
     }
 
+    @CrossOrigin
     @RequestMapping(path = "/feed/{feedId}/articles/{pageNumber}", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<String> getFeedArticles(
@@ -113,6 +116,7 @@ public class ArticleController {
                 HttpStatus.OK);
     }
 
+    @CrossOrigin
     @RequestMapping(path = "/article/as_read/{articleId}", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<String> markArticleAsRead(

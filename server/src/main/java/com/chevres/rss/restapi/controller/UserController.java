@@ -19,6 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -41,6 +42,7 @@ public class UserController {
     @Autowired
     UserUpdateValidator userUpdateValidator;
 
+    @CrossOrigin
     @RequestMapping(path = "/user/{username}", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<String> getUser(
@@ -74,6 +76,7 @@ public class UserController {
                 HttpStatus.OK);
     }
 
+    @CrossOrigin
     @RequestMapping(path = "/user/{username}", method = RequestMethod.PUT)
     @ResponseBody
     public ResponseEntity<String> updateUser(
@@ -123,6 +126,7 @@ public class UserController {
                 HttpStatus.OK);
     }
 
+    @CrossOrigin
     @RequestMapping(path = "/user/{username}", method = RequestMethod.DELETE)
     @ResponseBody
     public ResponseEntity<String> deleteUser(
@@ -160,6 +164,7 @@ public class UserController {
                 HttpStatus.OK);
     }
 
+    @CrossOrigin
     @RequestMapping(path = "/users", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<String> getUsers(

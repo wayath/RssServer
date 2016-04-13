@@ -25,6 +25,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -42,6 +43,7 @@ public class FeedController {
     @Autowired
     FeedValidator feedValidator;
 
+    @CrossOrigin
     @RequestMapping(path = "/feed", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<String> addFeed(
@@ -83,6 +85,7 @@ public class FeedController {
 
     }
 
+    @CrossOrigin
     @RequestMapping(path = "/feeds", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<String> getFeeds(
@@ -116,6 +119,7 @@ public class FeedController {
 
     }
 
+    @CrossOrigin
     @RequestMapping(path = "/feed/{feedId}", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<String> getFeedInfos(
@@ -146,6 +150,7 @@ public class FeedController {
                 HttpStatus.OK);
     }
 
+    @CrossOrigin
     @RequestMapping(path = "/feed/{feedId}", method = RequestMethod.PUT)
     @ResponseBody
     public ResponseEntity<String> updateFeedInfos(
@@ -184,6 +189,7 @@ public class FeedController {
                 HttpStatus.OK);
     }
 
+    @CrossOrigin
     @RequestMapping(path = "/feed/{feedId}", method = RequestMethod.DELETE)
     @ResponseBody
     public ResponseEntity<String> deleteFeed(
@@ -212,6 +218,7 @@ public class FeedController {
                 HttpStatus.OK);
     }
 
+    @CrossOrigin
     @RequestMapping(path = "/feed/as_read/{feedId}", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<String> markFeedAsRead(

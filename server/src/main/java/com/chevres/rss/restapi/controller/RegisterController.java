@@ -14,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -34,6 +35,7 @@ public class RegisterController {
     @Autowired
     UserValidator userValidator;
 
+    @CrossOrigin
     @RequestMapping(path = "/register", method = RequestMethod.POST)
     @ResponseBody
     public HttpEntity<String> register(
