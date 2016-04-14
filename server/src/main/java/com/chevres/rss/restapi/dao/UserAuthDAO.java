@@ -15,8 +15,6 @@ import java.util.List;
  */
 public interface UserAuthDAO extends GenericDAO {
     
-    public List<UserAuth> findByUsername(String username);
-
     public UserAuth findByToken(String token);
     
     public void removeAllForUser(User user);

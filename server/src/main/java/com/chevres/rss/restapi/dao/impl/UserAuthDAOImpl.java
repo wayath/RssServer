@@ -20,19 +20,7 @@ import org.hibernate.criterion.Restrictions;
  */
 public class UserAuthDAOImpl extends AbstractGenericDAO implements UserAuthDAO {
 
-    @Override
-    public List<UserAuth> findByUsername(String username) {
-        Session session = this.getSessionFactory().openSession();
-
-        Criteria criteria = session.createCriteria(User.class);
-        User user = (User) criteria.add(Restrictions.eq("username", username)).uniqueResult();
-
-        criteria = session.createCriteria(UserAuth.class);
-        List<UserAuth> ua = criteria.add(Restrictions.eq("user_id", user.getId())).list();
-        session.close();
-        return ua;
-    }
-
+    
     @Override
     public UserAuth findByToken(String token) {
         Session session = this.getSessionFactory().openSession();

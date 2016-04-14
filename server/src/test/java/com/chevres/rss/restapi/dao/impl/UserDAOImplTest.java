@@ -29,7 +29,7 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 @ContextConfiguration(locations = {"classpath:spring.xml"})
 @TestExecutionListeners({DependencyInjectionTestExecutionListener.class,
     DbUnitTestExecutionListener.class})
-@DatabaseSetup("classpath:rss-dataset.xml")
+@DatabaseSetup("classpath:datasets/dataset.xml")
 public class UserDAOImplTest {
 
     @Autowired

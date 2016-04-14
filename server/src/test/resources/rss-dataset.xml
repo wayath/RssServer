@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<dataset>
-    <User id="1" username="user1" password="$2a$10$u8nu.ZjC6FtffIlB6EjW8ekWbqym/II6tunJKXmP/orEP8rkIscFa" type="user" />
-    <User id="2" username="user2" password="password2" type="user" />
-    <User id="3" username="user3" password="password3" type="user" />
-    <User id="4" username="user4" password="password4" type="admin" />
-</dataset>

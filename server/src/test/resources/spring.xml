@@ -20,12 +20,13 @@
         <property name="annotatedClasses">
             <list>
                 <value>com.chevres.rss.restapi.model.User</value>
+                <value>com.chevres.rss.restapi.model.UserAuth</value>
             </list>
         </property>
         <property name="hibernateProperties">
             <props>
                 <prop key="hibernate.dialect">org.hibernate.dialect.HSQLDialect</prop>
-                <prop key="hibernate.hbm2ddl.auto">create</prop>
+                <prop key="hibernate.hbm2ddl.auto">create-drop</prop>
                 <prop key="hibernate.show_sql">true</prop>
             </props>
         </property>
@@ -33,6 +34,9 @@
  
      
     <bean id="userDAO" class="com.chevres.rss.restapi.dao.impl.UserDAOImpl">
+        <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+    </bean>
+    <bean id="userAuthDAO" class="com.chevres.rss.restapi.dao.impl.UserAuthDAOImpl">
         <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
     </bean>
 
