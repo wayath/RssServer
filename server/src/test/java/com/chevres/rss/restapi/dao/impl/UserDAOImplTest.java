@@ -12,7 +12,10 @@ import static org.junit.Assert.*;
 import org.junit.runner.RunWith;
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -26,6 +29,7 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 @ContextConfiguration(locations = {"classpath:spring.xml"})
 @TestExecutionListeners({DependencyInjectionTestExecutionListener.class,
     DbUnitTestExecutionListener.class})
+@DatabaseSetup("classpath:rss-dataset.xml")
 public class UserDAOImplTest {
 
     @Autowired
@@ -35,13 +39,80 @@ public class UserDAOImplTest {
      * Test of findById method, of class UserDAOImpl.
      */
     @Test
-    @DatabaseSetup("classpath:rss-dataset.xml")
     public void testFindById() {
-        System.out.println("findById");
         User user = userDao.findById(0);
         assertNull(user);
         user = userDao.findById(1);
         assertNotNull(user);
+    }
+
+    /**
+     * Test of findByUsername method, of class UserDAOImpl.
+     */
+    @Test
+    public void testFindByUsername() {
+        User user = userDao.findByUsername("notexistuser");
+        assertNull(user);
+        user = userDao.findByUsername("user1");
+        assertNotNull(user);
+    }
+
+    /**
+     * Test of updateUser method, of class UserDAOImpl.
+     */
+    @Test
+    public void testUpdateUser() {
+        User oldUser = userDao.findByUsername("user1");
+        User newUser = new User();
+        newUser.setUsername("Anthony");
+        newUser.setPassword("updatepwd");
+        newUser.setType("admin");
+        userDao.updateUser(oldUser, newUser, true);
+
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        boolean doesMatch = passwordEncoder.matches("updatepwd", oldUser.getPassword());
+
+        assertEquals(oldUser.getUsername(), "Anthony");
+        assertTrue(doesMatch);
+        assertEquals(oldUser.getType(), "admin");
+    }
+
+    /**
+     * Test of doesExist method, of class UserDAOImpl.
+     */
+    @Test
+    public void testDoesExist() {
+        assertTrue(userDao.doesExist("user1"));
+        assertFalse(userDao.doesExist("notregistereduser"));
+    }
+
+    /**
+     * Test of findByUsernameAndPassword method, of class UserDAOImpl.
+     */
+    @Test
+    public void testFindByUsernameAndPassword() {
+        assertNotNull(userDao.findByUsernameAndPassword("user1", "password"));
+        assertNull(userDao.findByUsernameAndPassword("user1", "passwor"));
+        assertNull(userDao.findByUsernameAndPassword("user", "password"));
+    }
+
+    /**
+     * Test of isAdmin method, of class UserDAOImpl.
+     */
+    @Test
+    public void testIsAdmin() {
+        assertFalse(userDao.isAdmin(1));
+        assertTrue(userDao.isAdmin(4));
+    }
+
+    /**
+     * Test of findEveryone method, of class UserDAOImpl.
+     */
+    @Test
+    public void testFindEveryone() {
+        List<User> userList = userDao.findEveryone();
+        assertEquals(userList.size(), 4);
+        assertNotEquals(userList.size(), 2);
     }
 
 }
