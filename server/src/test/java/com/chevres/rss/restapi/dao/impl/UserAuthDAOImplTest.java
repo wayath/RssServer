@@ -8,8 +8,10 @@ package com.chevres.rss.restapi.dao.impl;
 import com.chevres.rss.restapi.dao.UserAuthDAO;
 import com.chevres.rss.restapi.dao.UserDAO;
 import com.chevres.rss.restapi.model.User;
+import com.chevres.rss.restapi.model.UserAuth;
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
+import java.sql.Timestamp;
 import static org.junit.Assert.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -56,6 +58,38 @@ public class UserAuthDAOImplTest {
         userAuthDAO.removeAllForUser(user);
 
         assertNull(userAuthDAO.findByToken(token));
+    }
+
+    @Test
+    public void testCreate() {
+        String token = "fezfezgezgezg";
+        Timestamp createDate = new Timestamp(1132);
+        
+        UserAuth userAuth = new UserAuth();
+        userAuth.setIdUser(1);
+        userAuth.setToken(token);
+        userAuth.setCreateDate(createDate);
+
+        userAuthDAO.create(userAuth);
+
+        UserAuth createdUserAuth = userAuthDAO.findByToken(token);
+        assertNotNull(createdUserAuth);
+        assertEquals(createdUserAuth.getId(), 5);
+        assertEquals(createdUserAuth.getCreateDate(), createDate);
+        assertEquals(createdUserAuth.getIdUser(), 1);
+        assertEquals(createdUserAuth.getToken(), token);
+    }
+
+    @Test
+    public void testDelete() {
+        String token = "upok4dqq2r7udqf9p5u21p0bh3";
+        UserAuth userAuth = userAuthDAO.findByToken(token);
+        assertNotNull(userAuth);
+
+        userAuthDAO.delete(userAuth);
+
+        userAuth = userAuthDAO.findByToken(token);
+        assertNull(userAuth);
     }
 
 }

@@ -115,4 +115,31 @@ public class UserDAOImplTest {
         assertNotEquals(userList.size(), 2);
     }
 
+    @Test
+    public void testCreate() {
+        User user = new User();
+        user.setUsername("username");
+        user.setPassword("pwd");
+        user.setType("user");
+
+        userDao.create(user);
+        User createdUser = userDao.findByUsername("username");
+        assertNotNull(createdUser);
+        assertEquals(createdUser.getId(), 5);
+        assertEquals(createdUser.getUsername(), "username");
+        assertEquals(createdUser.getPassword(), "pwd");
+        assertEquals(createdUser.getType(), "user");
+    }
+
+    @Test
+    public void testDelete() {
+        User user = userDao.findByUsername("user1");
+        assertNotNull(user);
+
+        userDao.delete(user);
+
+        user = userDao.findByUsername("user1");
+        assertNull(user);
+    }
+
 }
