@@ -21,6 +21,7 @@
             <list>
                 <value>com.chevres.rss.restapi.model.User</value>
                 <value>com.chevres.rss.restapi.model.UserAuth</value>
+                <value>com.chevres.rss.restapi.model.ArticleState</value>
             </list>
         </property>
         <property name="hibernateProperties">
@@ -37,6 +38,9 @@
         <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
     </bean>
     <bean id="userAuthDAO" class="com.chevres.rss.restapi.dao.impl.UserAuthDAOImpl">
+        <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+    </bean>
+    <bean id="articleStateDAO" class="com.chevres.rss.restapi.dao.impl.ArticleStateDAOImpl">
         <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
     </bean>
 

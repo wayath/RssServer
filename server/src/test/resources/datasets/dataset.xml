@@ -10,4 +10,7 @@
     <User_auth id="2" id_user="2" token="j7s31kt86tt5635k3fse410mjm" create_date="2016-04-08 00:15:52" />
     <user_auth id="3" id_user="3" token="p4sr3sql7q6b0v64k1d55l06bk" create_date="2016-04-14 02:42:21" />
     <user_auth id="4" id_user="4" token="ci16gm1hio3cq6pr2raknio15v" create_date="2016-04-14 02:42:21" />
+    
+    <article_state id="1" label="new" status="0"/>
+    <article_state id="2" label="read" status="1"/>
 </dataset>
