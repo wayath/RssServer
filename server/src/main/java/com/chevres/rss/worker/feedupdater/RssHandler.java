@@ -30,10 +30,12 @@ public class RssHandler extends DefaultHandler {
     private Feed feed;
     private ArticleState state;
     private StringBuilder stringBuilder;
+    private boolean checkType;
     
     public RssHandler(Feed f, ArticleState s) {
         this.feed = f;
         this.state = s;
+        this.checkType = true;
     }
     
     @Override
@@ -47,6 +49,13 @@ public class RssHandler extends DefaultHandler {
     
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) {
+        if (this.checkType == true && qName.length() != 0 && qName.equals("rss")) {
+            this.checkType = false;
+        }
+        else if (this.checkType == true && qName.length() != 0) {
+            throw new RuntimeException();
+        }
+            
         this.stringBuilder = new StringBuilder();
         if (qName.equals("item") && this.articles != null) {
             this.currentArticle = new Article();
