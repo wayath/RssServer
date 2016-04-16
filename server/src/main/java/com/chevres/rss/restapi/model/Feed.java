@@ -30,6 +30,8 @@ public class Feed {
     private String url;
     @Column(name = "id_user")
     private int idUser;
+    @Column(name = "refresh_error", nullable = false, columnDefinition = "TINYINT", length = 1)
+    private boolean refreshError;
 
     public int getId() {
         return id;
@@ -63,4 +65,11 @@ public class Feed {
         this.idUser = idUser;
     }
 
+    public boolean getRefreshError() {
+        return this.refreshError;
+    }
+    
+    public void setRefreshError(boolean error) {
+        this.refreshError = error;
+    }
 }

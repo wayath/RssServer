@@ -17,12 +17,14 @@ public class SuccessFeedInfoResponse {
     private final String name;
     private final String url;
     private final int newArticles;
+    private final boolean refreshError;
 
-    public SuccessFeedInfoResponse(int id, String name, String url, int newArticles) {
+    public SuccessFeedInfoResponse(int id, String name, String url, int newArticles, boolean error) {
         this.id = id;
         this.name = name;
         this.url = url;
         this.newArticles = newArticles;
+        this.refreshError = error;
     }
 
 
@@ -41,5 +43,10 @@ public class SuccessFeedInfoResponse {
     @JsonProperty("new_articles")
     public int getNewArticles() {
         return newArticles;
+    }
+    
+    @JsonProperty("refresh_error")
+    public boolean getRefreshError() {
+        return refreshError;
     }
 }

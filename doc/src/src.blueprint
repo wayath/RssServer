@@ -240,7 +240,9 @@ S'abonner a un flux
           {
               id: id,
               name: "name",
-              url: "url"
+              url: "url",
+              new_articles: 420,
+              refresh_error: false
           }
 
 
@@ -262,7 +264,7 @@ Récupérer la liste des flux
 
           {
               "feeds" : [
-                  {id: id, name: "name", url: "url"},
+                  {id: id, name: "name", url: "url", refresh_error: false},
                   ...
               ],
               "new_articles": 3
@@ -314,7 +316,8 @@ Récupérer les infos d'un flux
               id: id,
               name: "name",
               url: "url",
-              new_articles: 3
+              new_articles: 3,
+              refresh_error: false
           }
 
 ### Update feed infos [PUT]
@@ -344,7 +347,9 @@ Update les infos d'un flux
           {
               id: id,
               name: "name",
-              url: "url"
+              url: "url",
+              new_articles: 42,
+              refresh_error: false
           }
 
 ### Delete feed [DELETE]

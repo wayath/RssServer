@@ -73,6 +73,7 @@ public class FeedController {
         }
 
         feed.setIdUser(userAuth.getIdUser());
+        feed.setRefreshError(false);
         feedDAO.create(feed);
 
         int newArticles = feedDAO.getNewArticlesByFeed(feed);
@@ -80,7 +81,7 @@ public class FeedController {
         context.close();
 
         return new ResponseEntity(new SuccessFeedInfoResponse(
-                feed.getId(), feed.getName(), feed.getUrl(), newArticles),
+                feed.getId(), feed.getName(), feed.getUrl(), newArticles, feed.getRefreshError()),
                 HttpStatus.OK);
 
     }
@@ -107,7 +108,8 @@ public class FeedController {
             finalList.add(new SuccessGetFeedWithIdResponse(
                     feed.getId(),
                     feed.getName(),
-                    feed.getUrl()));
+                    feed.getUrl(),
+                    feed.getRefreshError()));
         }
 
         int nbNewArticles = feedDAO.getNewArticles(feeds);
@@ -146,7 +148,7 @@ public class FeedController {
         context.close();
 
         return new ResponseEntity(new SuccessFeedInfoResponse(
-                feed.getId(), feed.getName(), feed.getUrl(), newArticles),
+                feed.getId(), feed.getName(), feed.getUrl(), newArticles, feed.getRefreshError()),
                 HttpStatus.OK);
     }
 
@@ -185,7 +187,7 @@ public class FeedController {
 
         
         return new ResponseEntity(new SuccessFeedInfoResponse(
-                feed.getId(), feed.getName(), feed.getUrl(), newArticles),
+                feed.getId(), feed.getName(), feed.getUrl(), newArticles, feed.getRefreshError()),
                 HttpStatus.OK);
     }
 
