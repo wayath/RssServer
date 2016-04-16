@@ -26,10 +26,10 @@ public class FeedUpdater {
             return (false);
         }
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring.xml");
+        FeedDAO feedDAO = context.getBean(FeedDAO.class);
         ArticleDAO articleDAO = context.getBean(ArticleDAO.class);
         List<Article> articles;
-        // TODO: ajouter un champ "error" si jamais le feed ne peut pas etre updaté
-
+        
         RssParser parser = new RssParser();
         try {
             articles = parser.parseFeed(feed);
@@ -40,10 +40,12 @@ public class FeedUpdater {
                     articleDAO.create(article);
                 }
             }
+            feedDAO.updateRefreshError(feed, false);
         }
         catch (Exception e) {
             System.out.println("FEED UPDATE ERROR");
             System.out.println(e.getMessage());
+            feedDAO.updateRefreshError(feed, true);
         }
         context.close();
         return (true);

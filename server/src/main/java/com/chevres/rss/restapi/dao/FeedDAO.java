@@ -30,6 +30,8 @@ public interface FeedDAO extends GenericDAO {
     
     public void updateName(Feed oldFeed, Feed newFeed);
     
+    public void updateRefreshError(Feed feed, boolean refreshError);
+    
     public int getNewArticles(List<Feed> feeds);
     
     public int getNewArticlesByFeed(Feed feed);

@@ -115,6 +115,18 @@ public class FeedDAOImpl extends AbstractGenericDAO implements FeedDAO {
     }
 
     @Override
+    public void updateRefreshError(Feed feed, boolean refreshError) {
+        Session session = this.getSessionFactory().openSession();
+        Transaction tx = session.beginTransaction();
+
+        feed.setRefreshError(refreshError);
+
+        session.update(feed);
+        tx.commit();
+        session.close();
+    }
+    
+    @Override
     public int getNewArticles(List<Feed> feeds) {
         Session session = this.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
