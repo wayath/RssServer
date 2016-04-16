@@ -58,9 +58,13 @@ public class RssHandler extends DefaultHandler {
             
         this.stringBuilder = new StringBuilder();
         if (qName.equals("item") && this.articles != null) {
+            Date date = new Date();
             this.currentArticle = new Article();
             this.currentArticle.setFeed(this.feed);
             this.currentArticle.setStatus(this.state);
+            this.currentArticle.setPubDate(new java.sql.Timestamp(date.getTime()));
+            this.currentArticle.setPreviewContent("");
+            this.currentArticle.setFullContent("");
             this.articles.add(this.currentArticle);
         }
     }
@@ -79,6 +83,7 @@ public class RssHandler extends DefaultHandler {
                 switch (qName.toLowerCase()) {
                     case "title":
                         String title = this.stringBuilder.toString();
+                        title = title.substring(0, Math.min(title.length(), 500));
                         this.currentArticle.setTitle(title);
                         break;
                     case "pubdate":

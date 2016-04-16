@@ -34,9 +34,7 @@ public class FeedUpdater {
         try {
             articles = parser.parseFeed(feed);
             for (Article article : articles) {
-                System.out.println(article);
-                // TODO: validate data
-                if (!articleDAO.doesExist(article.getFeed(), article.getLink())) {
+                if (article.prepare() && !articleDAO.doesExist(article.getFeed(), article.getLink())) {
                     articleDAO.create(article);
                 }
             }

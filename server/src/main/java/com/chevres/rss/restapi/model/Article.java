@@ -113,4 +113,14 @@ public class Article implements Serializable {
     public String toString() {
         return ("==> BEGIN ARTICLE:\n"+"title: "+this.title+"\nlink: "+this.link+"\ndescription: "+this.previewContent+"\n<== END ARTICLE");
     }
+    
+    public boolean prepare() {
+        if (this.title.isEmpty() || this.link.isEmpty() || this.previewContent.isEmpty()) {
+        return (false);
+        }
+        if (this.fullContent.isEmpty()) {
+            this.fullContent = this.previewContent;
+        }
+        return (true);
+    }
 }
