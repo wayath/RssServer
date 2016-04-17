@@ -445,6 +445,20 @@ Marquer un article comme lu
 ### Update a feed [GET]
 Updater un feed
 + Request (application/json)
++ Headers
+
+    User-token: "token"
+
++ Response 400 (application/json)
+
+          {
+              message: "invalid_token"
+          }
++ Response 400 (application/json)
+
+          {
+              message: "bad_params"
+          }
 + Response 400 (application/json)
 
           {
