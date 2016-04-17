@@ -439,7 +439,8 @@ Marquer un article comme lu
               message: "success"
           }
 
-## Update a feed[/worker/refresh/feed/:feed_id]
+
+## Update a feed [/worker/refresh/feed/:feed_id]
 
 ### Update a feed [GET]
 Updater un feed
@@ -454,6 +455,7 @@ Updater un feed
           {
               message: "success"
           }
+
 
 ## Update all feeds for all users [/worker/refresh]
 
