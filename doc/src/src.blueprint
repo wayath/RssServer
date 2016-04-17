@@ -439,6 +439,22 @@ Marquer un article comme lu
               message: "success"
           }
 
+## Update a feed[/worker/refresh/feed/:feed_id]
+
+### Update a feed [GET]
+Updater un feed
++ Request (application/json)
++ Response 400 (application/json)
+
+          {
+              message: "error"
+          }
++ Response 200 (application/json)
+
+          {
+              message: "success"
+          }
+
 ## Update all feeds for all users [/worker/refresh]
 
 ### Update all feeds for all users [GET]

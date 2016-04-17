@@ -53,7 +53,7 @@ public class FeedUpdater {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring.xml");
         FeedDAO feedDAO = context.getBean(FeedDAO.class);
         
-        Feed feed = feedDAO.findById(null, feedId);
+        Feed feed = feedDAO.findById(feedId);
         if (feed == null) {
             context.close();
             return (false);
