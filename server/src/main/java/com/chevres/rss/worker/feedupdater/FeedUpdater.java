@@ -44,6 +44,7 @@ public class FeedUpdater {
             System.out.println("FEED UPDATE ERROR");
             System.out.println(e.getMessage());
             feedDAO.updateRefreshError(feed, true);
+            return (false);
         }
         context.close();
         return (true);
