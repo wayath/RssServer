@@ -10,6 +10,7 @@ import com.chevres.rss.restapi.controller.jsonresponse.SuccessMessageResponse;
 import com.chevres.rss.worker.feedupdater.FeedUpdater;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,12 +37,9 @@ public class WorkerController {
         }
     }
     
-    @RequestMapping(path = "/worker/refresh", method = RequestMethod.GET)
-    @ResponseBody
-    public ResponseEntity<String> refreshFeeds() {
+    @Scheduled(cron="0 0/10 * * * ?")
+    public void refreshFeedsScheduled() {
         FeedUpdater feedUpdater = new FeedUpdater();
         feedUpdater.updateAll();
-        return new ResponseEntity(new SuccessMessageResponse("success"),
-                HttpStatus.OK);
     }
 }
