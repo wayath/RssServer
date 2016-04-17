@@ -13,6 +13,7 @@ import com.chevres.rss.restapi.model.User;
 import com.chevres.rss.restapi.model.UserAuth;
 import java.util.List;
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
@@ -150,7 +151,7 @@ public class FeedDAOImpl extends AbstractGenericDAO implements FeedDAO {
 
     @Override
     public int getNewArticlesByFeed(Feed feed) {
-         Session session = this.getSessionFactory().openSession();
+        Session session = this.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
 
         ArticleState newArticle = new ArticleState();
@@ -170,4 +171,17 @@ public class FeedDAOImpl extends AbstractGenericDAO implements FeedDAO {
         return newArticles;
     }
 
+    @Override
+    public void deleteArticles(Feed feed) {
+        Session session = this.getSessionFactory().openSession();
+        Transaction tx = session.beginTransaction();
+        
+        String hql = "delete Article where feed = :feedObject";
+        Query query = session.createQuery(hql);
+        query.setParameter("feedObject", feed);
+        query.executeUpdate();
+        
+        tx.commit();
+        session.close();
+    }
 }

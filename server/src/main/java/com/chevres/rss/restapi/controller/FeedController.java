@@ -212,7 +212,7 @@ public class FeedController {
         if (feed == null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
-
+        feedDAO.deleteArticles(feed);
         feedDAO.delete(feed);
         context.close();
 

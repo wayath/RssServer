@@ -35,4 +35,6 @@ public interface FeedDAO extends GenericDAO {
     public int getNewArticles(List<Feed> feeds);
     
     public int getNewArticlesByFeed(Feed feed);
+    
+    public void deleteArticles(Feed feed);
 }
