@@ -18,11 +18,19 @@ import org.hibernate.criterion.Restrictions;
 public class ArticleStateDAOImpl extends AbstractGenericDAO implements ArticleStateDAO {
     @Override
     public ArticleState findByLabel(String label) {
+        ArticleState articleState;
         Session session = this.getSessionFactory().openSession();
         
-        Criteria criteria = session.createCriteria(ArticleState.class);
-        ArticleState articleState = (ArticleState) criteria.add(Restrictions.eq("label", label)).uniqueResult();
-        session.close();
+        try {
+            Criteria criteria = session.createCriteria(ArticleState.class);
+            articleState = (ArticleState) criteria.add(Restrictions.eq("label", label)).uniqueResult();
+        }
+        catch (Exception e) {
+            throw e;
+        }
+        finally {
+            session.close();
+        }
         return (articleState);
     }
 }

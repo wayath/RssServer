@@ -29,19 +29,35 @@ public abstract class AbstractGenericDAO implements GenericDAO {
     @Override
     public void create(Object o) {
         Session session = this.sessionFactory.openSession();
-        Transaction tx = session.beginTransaction();
-        session.persist(o);
-        tx.commit();
-        session.close();
+        Transaction tx;
+        try {
+            tx = session.beginTransaction();
+            session.persist(o);
+            tx.commit();
+        }
+        catch (Exception e) {
+            throw e;
+        }
+        finally {
+            session.close();
+        }
     }
 
     @Override
     public void delete(Object o) {
         Session session = this.sessionFactory.openSession();
-        Transaction tx = session.beginTransaction();
-        session.delete(o);
-        tx.commit();
-        session.close();
+        Transaction tx;
+        try {
+            tx = session.beginTransaction();
+            session.delete(o);
+            tx.commit();
+        }
+        catch (Exception e) {
+            throw e;
+        }
+        finally {
+            session.close();
+        }
     }
 
 }

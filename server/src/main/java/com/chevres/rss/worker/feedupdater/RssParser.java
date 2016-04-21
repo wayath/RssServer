@@ -49,7 +49,9 @@ public class RssParser {
             System.out.println(e.getMessage());
             throw new RuntimeException(e);
         }
-        
+        finally {
+           context.close(); 
+        }
         return (rssHandler.getResult());
     }
     

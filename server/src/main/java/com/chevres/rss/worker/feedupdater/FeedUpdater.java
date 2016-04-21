@@ -46,7 +46,9 @@ public class FeedUpdater {
             feedDAO.updateRefreshError(feed, true);
             return (false);
         }
-        context.close();
+        finally {
+           context.close(); 
+        }
         return (true);
     }
     

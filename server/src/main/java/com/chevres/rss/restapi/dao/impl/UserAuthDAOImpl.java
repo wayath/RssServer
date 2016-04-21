@@ -23,26 +23,39 @@ public class UserAuthDAOImpl extends AbstractGenericDAO implements UserAuthDAO {
     
     @Override
     public UserAuth findByToken(String token) {
+        UserAuth ua;
         Session session = this.getSessionFactory().openSession();
-
-        Criteria criteria = session.createCriteria(UserAuth.class);
-        UserAuth ua = (UserAuth) criteria.add(Restrictions.eq("token", token)).uniqueResult();
-        session.close();
-
+        try {
+            Criteria criteria = session.createCriteria(UserAuth.class);
+            ua = (UserAuth) criteria.add(Restrictions.eq("token", token)).uniqueResult();
+        }
+        catch (Exception e) {
+            throw e;
+        }
+        finally {
+            session.close();
+        }
         return ua;
     }
 
     @Override
     public void removeAllForUser(User user) {
         Session session = this.getSessionFactory().openSession();
-        Transaction tx = session.beginTransaction();
+        Transaction tx;
+        try {
+            tx = session.beginTransaction();
+            String id = Integer.toString(user.getId());
+            String hql = "delete from UserAuth where id_user= :userId";
+            session.createQuery(hql).setString("userId", id).executeUpdate();
 
-        String id = Integer.toString(user.getId());
-        String hql = "delete from UserAuth where id_user= :userId";
-        session.createQuery(hql).setString("userId", id).executeUpdate();
-
-        tx.commit();
-        session.close();
+            tx.commit();
+        }
+        catch (Exception e) {
+            throw e;
+        }
+        finally {
+            session.close();
+        }
     }
 
 }
