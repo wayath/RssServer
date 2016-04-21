@@ -109,14 +109,13 @@ public class FeedController {
                     feed.getId(),
                     feed.getName(),
                     feed.getUrl(),
-                    feed.getRefreshError()));
+                    feed.getRefreshError(),
+                    feedDAO.getNewArticlesByFeed(feed)));
         }
 
-        int nbNewArticles = feedDAO.getNewArticles(feeds);
-        
         context.close();
 
-        return new ResponseEntity(new SuccessGetFeedsResponse(finalList, nbNewArticles),
+        return new ResponseEntity(new SuccessGetFeedsResponse(finalList),
                 HttpStatus.OK);
 
     }

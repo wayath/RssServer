@@ -12,16 +12,19 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author anthony
  */
 public class SuccessGetFeedWithIdResponse {
+
     private final int id;
     private final String name;
     private final String url;
     private final boolean refreshError;
+    private final int newArticles;
 
-    public SuccessGetFeedWithIdResponse(int id, String name, String url, boolean error) {
+    public SuccessGetFeedWithIdResponse(int id, String name, String url, boolean refreshError, int new_articles) {
         this.id = id;
         this.name = name;
         this.url = url;
-        this.refreshError = error;
+        this.refreshError = refreshError;
+        this.newArticles = new_articles;
     }
 
     public int getId() {
@@ -35,9 +38,14 @@ public class SuccessGetFeedWithIdResponse {
     public String getUrl() {
         return url;
     }
-    
+
     @JsonProperty("refresh_error")
     public boolean getRefreshError() {
         return refreshError;
+    }
+
+    @JsonProperty("new_articles")
+    public int getNewArticles() {
+        return newArticles;
     }
 }
