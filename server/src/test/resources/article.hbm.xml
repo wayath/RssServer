@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.chevres.rss.restapi.model">
+    <class name="Article" table="article">
+        <id name="id" type="int" column="id">
+            <generator class="native"/>
+        </id>
+        <many-to-one name="feed" class="Feed"
+                     column="id_feed" not-null="true" cascade="all"/>
+        <property name="link" column="link"/>
+        <property name="title" column="title"/>
+        <property name="previewContent" column="preview"/>
+        <property name="fullContent" column="full_content"/>
+        <many-to-one name="status" class="ArticleState"
+                     column="status" not-null="true" cascade="all"/>
+        <property name="pubDate" column="pub_date"/>
+    </class>
+</hibernate-mapping>

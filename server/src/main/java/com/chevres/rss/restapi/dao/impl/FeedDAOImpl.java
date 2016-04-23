@@ -183,21 +183,17 @@ public class FeedDAOImpl extends AbstractGenericDAO implements FeedDAO {
     }
     
     @Override
-    public int getNewArticles(List<Feed> feeds) {
+    public int getNewArticles(List<Feed> feeds, ArticleState newState) {
         int newArticles;
         Session session = this.getSessionFactory().openSession();
         Transaction tx;
         try {
             tx = session.beginTransaction();
-            ArticleState newArticle = new ArticleState();
-            newArticle.setLabel(ArticleState.NEW_LABEL);
-            newArticle.setStatus(ArticleState.NEW_STATUS);
-        
-        
+
             Criteria criteria = session.createCriteria(Article.class);
             newArticles = criteria
                     .add(Restrictions.in("feed", feeds))
-                    .add(Restrictions.eq("status", newArticle))
+                    .add(Restrictions.eq("status", newState))
                     .list().size();
         
             tx.commit();

@@ -39,6 +39,10 @@ public class ArticleState implements Serializable {
     public int getId() {
         return id;
     }
+    
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getLabel() {
         return label;
@@ -48,7 +52,7 @@ public class ArticleState implements Serializable {
         this.label = label;
     }
 
-    public boolean getState() {
+    public boolean getStatus() {
         return status;
     }
 

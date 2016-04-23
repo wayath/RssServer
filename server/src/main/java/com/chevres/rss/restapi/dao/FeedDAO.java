@@ -5,6 +5,7 @@
  */
 package com.chevres.rss.restapi.dao;
 
+import com.chevres.rss.restapi.model.ArticleState;
 import com.chevres.rss.restapi.model.Feed;
 import com.chevres.rss.restapi.model.User;
 import com.chevres.rss.restapi.model.UserAuth;
@@ -32,7 +33,7 @@ public interface FeedDAO extends GenericDAO {
     
     public void updateRefreshError(Feed feed, boolean refreshError);
     
-    public int getNewArticles(List<Feed> feeds);
+    public int getNewArticles(List<Feed> feeds, ArticleState newState);
     
     public int getNewArticlesByFeed(Feed feed);
     

@@ -41,7 +41,7 @@ public class ArticleStateDAOImplTest {
         assertNotNull(articleState);
         assertEquals(articleState.getId(), 1);
         assertEquals(articleState.getLabel(), "new");
-        assertFalse(articleState.getState());
+        assertFalse(articleState.getStatus());
         articleState = articleStateDAO.findByLabel("lol");
         assertNull(articleState);
     }

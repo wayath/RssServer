@@ -5,9 +5,11 @@
  */
 package com.chevres.rss.restapi.dao.impl;
 
+import com.chevres.rss.restapi.dao.ArticleStateDAO;
 import com.chevres.rss.restapi.dao.FeedDAO;
 import com.chevres.rss.restapi.dao.UserAuthDAO;
 import com.chevres.rss.restapi.dao.UserDAO;
+import com.chevres.rss.restapi.model.ArticleState;
 import com.chevres.rss.restapi.model.Feed;
 import com.chevres.rss.restapi.model.UserAuth;
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
@@ -41,6 +43,8 @@ public class FeedDAOImplTest {
     UserAuthDAO userAuthDAO;
     @Autowired
     FeedDAO feedDAO;
+    @Autowired
+    ArticleStateDAO articleStateDAO;
 
     /**
      * Test of doesExist method, of class FeedDAOImpl.
@@ -60,6 +64,9 @@ public class FeedDAOImplTest {
     public void testRemoveAllForUser() {
         UserAuth userAuth = userAuthDAO.findByToken(TOKEN_USER1);
         assertTrue(feedDAO.doesExist(userAuth, "http://rss.feed.com/"));
+        for (Feed feed : feedDAO.findAll(userAuth)) {
+            feedDAO.deleteArticles(feed);
+        }
         feedDAO.removeAllForUser(userDAO.findById(1));
         assertFalse(feedDAO.doesExist(userAuth, "http://rss.feed.com/"));
     }
@@ -128,8 +135,9 @@ public class FeedDAOImplTest {
      */
     @Test
     public void testGetNewArticles() {
-//        List<Feed> feeds = feedDAO.findAll();
-//        assertEquals(feedDAO.getNewArticles(feeds), this);
+        List<Feed> feeds = feedDAO.findAll();
+        ArticleState newState = articleStateDAO.findByLabel(ArticleState.NEW_LABEL);
+        assertEquals(feedDAO.getNewArticles(feeds, newState), 2);
     }
 
     /**
