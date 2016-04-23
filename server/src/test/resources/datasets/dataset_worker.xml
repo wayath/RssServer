@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<dataset>
+    <user id="1" username="zanchi_r" password="$2a$10$CUn3MZHXCV6I7YL8k94w6.wbqvy/tBmQ71gJ38z8oboVpQmZ2YHZ6" type="user" />
+    
+    <user_auth id="1" id_user="1" token="iql6sp7ni28ridhgbbr7bmh1l3" create_date="2016-04-06 19:09:29" />
+
+    <article_state id="1" label="new" status="false"/>
+    <article_state id="2" label="read" status="true"/>
+
+    <feed id="1" name="Index page" url="http://romain-zanchi.com:4499/index.html" id_user="1" refresh_error="0"/>
+    <feed id="2" name="Test feed" url="http://romain-zanchi.com:4499/feed.xml" id_user="1" refresh_error="0"/>
+    <feed id="3" name="invalid url" url="http://yolomonga.fr/yolomonga" id_user="1" refresh_error="0"/>
+
+    <article id="1" id_feed="1" link="http://romain-zanchi.com:4499/unfakearticle" title="Article fake" preview="fake preview" full_content="fake content" status="1" pub_date="2016-04-08 15:43:13"/>
+    
+</dataset>
+
