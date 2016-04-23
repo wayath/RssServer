@@ -25,3 +25,8 @@ rssdocapi:
   build: doc/
   ports:
     - 4497:80
+
+testresources:
+  build: testresources/
+  ports:
+    - 4499:80

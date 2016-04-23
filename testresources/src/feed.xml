@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+<channel>
+  <title>Feed de test</title>
+  <link>http://romain-zanchi.com:4499/feed.xml</link>
+  <description>Description de test</description>
+  <language>fr</language>
+  <item>
+      <title>Article 3</title>
+      <link>http://romain-zanchi.com:4499/article3</link>
+      <pubDate>Mon, 14 Sep 2016 18:37:00 GMT</pubDate>
+      <description>Ceci est une description</description>
+      <content>Ceci est un article</content>
+  </item>
+  <item>
+      <title>Article 2</title>
+      <link>http://romain-zanchi.com:4499/article2</link>
+      <pubDate>Mon, 13 Sep 2016 18:37:00 GMT</pubDate>
+      <description>Ceci est une description</description>
+      <content>Ceci est un article</content>
+  </item>
+  <item>
+    <title>Article 1</title>
+    <link>http://romain-zanchi.com:4499/article1</link>
+    <pubDate>Mon, 12 Sep 2016 18:37:00 GMT</pubDate>
+    <description>Ceci est une description</description>
+    <content>Ceci est un article</content>
+  </item>
+</channel>
+</rss>
