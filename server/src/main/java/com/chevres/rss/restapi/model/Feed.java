@@ -5,6 +5,7 @@
  */
 package com.chevres.rss.restapi.model;
 
+import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,10 +19,10 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "feed")
-public class Feed {
+public class Feed implements Serializable {
 
     @Id
-    @Column(name = "id", columnDefinition = "id")
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column(name = "name")

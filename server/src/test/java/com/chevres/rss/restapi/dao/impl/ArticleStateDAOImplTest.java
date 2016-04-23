@@ -46,13 +46,4 @@ public class ArticleStateDAOImplTest {
         assertNull(articleState);
     }
 
-    @Test
-    public void testCreate() {
-        ArticleState articleState = new ArticleState();
-        articleState.setLabel("test");
-        articleState.setStatus(true);
-
-        articleStateDAO.create(articleState);
-        assertNotNull(articleStateDAO.findByLabel("test"));
-    }
 }

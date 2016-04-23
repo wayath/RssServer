@@ -28,7 +28,7 @@ public class Article implements Serializable {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    
+
     @ManyToOne(targetEntity = Feed.class)
     @JoinColumn(name = "id_feed", referencedColumnName = "id")
     private Feed feed;
@@ -109,14 +109,15 @@ public class Article implements Serializable {
     public void setPubDate(Timestamp pubDate) {
         this.pubDate = pubDate;
     }
-    
+
+    @Override
     public String toString() {
         return ("==> BEGIN ARTICLE:\n"+"title: "+this.title+"\nlink: "+this.link+"\ndescription: "+this.previewContent+"\n<== END ARTICLE");
     }
-    
+
     public boolean prepare() {
         if (this.title.isEmpty() || this.link.isEmpty() || this.previewContent.isEmpty()) {
-        return (false);
+            return (false);
         }
         if (this.fullContent.isEmpty()) {
             this.fullContent = this.previewContent;

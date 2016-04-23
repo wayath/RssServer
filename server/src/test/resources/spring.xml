@@ -9,7 +9,7 @@
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
         <property name="driverClassName" value="org.hsqldb.jdbcDriver" />
         <property name="url" value="jdbc:hsqldb:mem:rss" />
-        <property name="username" value="SA" />
+        <property name="username" value="sa" />
         <property name="password" value="" />
     </bean> 
     
@@ -22,6 +22,8 @@
                 <value>com.chevres.rss.restapi.model.User</value>
                 <value>com.chevres.rss.restapi.model.UserAuth</value>
                 <value>com.chevres.rss.restapi.model.ArticleState</value>
+                <value>com.chevres.rss.restapi.model.Feed</value>
+                <value>com.chevres.rss.restapi.model.Article</value>
             </list>
         </property>
         <property name="hibernateProperties">
@@ -38,6 +40,12 @@
         <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
     </bean>
     <bean id="userAuthDAO" class="com.chevres.rss.restapi.dao.impl.UserAuthDAOImpl">
+        <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+    </bean>
+    <bean id="feedDAO" class="com.chevres.rss.restapi.dao.impl.FeedDAOImpl">
+        <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+    </bean>
+    <bean id="articleDAO" class="com.chevres.rss.restapi.dao.impl.ArticleDAOImpl">
         <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
     </bean>
     <bean id="articleStateDAO" class="com.chevres.rss.restapi.dao.impl.ArticleStateDAOImpl">
