@@ -264,10 +264,9 @@ Récupérer la liste des flux
 
           {
               "feeds" : [
-                  {id: id, name: "name", url: "url", refresh_error: false},
+                  {id: id, name: "name", url: "url", new_articles: 3, refresh_error: false},
                   ...
-              ],
-              "new_articles": 3
+              ]
           }
 
 
