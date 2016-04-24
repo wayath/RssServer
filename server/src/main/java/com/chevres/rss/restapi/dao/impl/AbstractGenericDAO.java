@@ -32,7 +32,7 @@ public abstract class AbstractGenericDAO implements GenericDAO {
         Transaction tx;
         try {
             tx = session.beginTransaction();
-            session.persist(o);
+            session.saveOrUpdate(o);
             tx.commit();
         }
         catch (Exception e) {

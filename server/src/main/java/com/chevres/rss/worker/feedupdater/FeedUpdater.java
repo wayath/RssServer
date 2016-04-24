@@ -6,31 +6,35 @@
 package com.chevres.rss.worker.feedupdater;
 
 import com.chevres.rss.restapi.dao.ArticleDAO;
+import com.chevres.rss.restapi.dao.ArticleStateDAO;
 import com.chevres.rss.restapi.dao.FeedDAO;
 import com.chevres.rss.restapi.model.Article;
 import com.chevres.rss.restapi.model.Feed;
 import java.util.List;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  *
  * @author zanchi_r
  */
 public class FeedUpdater {
-        
-    public FeedUpdater() {
+
+    private final FeedDAO feedDAO;
+    private final ArticleDAO articleDAO;
+    private final ArticleStateDAO articleStateDAO;
+
+    public FeedUpdater(FeedDAO feedDAO, ArticleDAO articleDAO, ArticleStateDAO articleStateDAO) {
+        this.feedDAO = feedDAO;
+        this.articleDAO = articleDAO;
+        this.articleStateDAO = articleStateDAO;
     }
 
     public Boolean updateFeed(Feed feed) {
         if (feed == null) {
             return (false);
         }
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring.xml");
-        FeedDAO feedDAO = context.getBean(FeedDAO.class);
-        ArticleDAO articleDAO = context.getBean(ArticleDAO.class);
         List<Article> articles;
-        
-        RssParser parser = new RssParser();
+
+        RssParser parser = new RssParser(articleStateDAO);
         try {
             articles = parser.parseFeed(feed);
             for (Article article : articles) {
@@ -39,42 +43,27 @@ public class FeedUpdater {
                 }
             }
             feedDAO.updateRefreshError(feed, false);
-        }
-        catch (Exception e) {
-            System.out.println("FEED UPDATE ERROR");
-            System.out.println(e.getMessage());
+        } catch (Exception e) {
             feedDAO.updateRefreshError(feed, true);
             return (false);
         }
-        finally {
-           context.close(); 
-        }
         return (true);
     }
-    
+
     public Boolean updateFeedById(int feedId) {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring.xml");
-        FeedDAO feedDAO = context.getBean(FeedDAO.class);
-        
         Feed feed = feedDAO.findById(feedId);
+
         if (feed == null) {
-            context.close();
             return (false);
         }
-        context.close();
         return (this.updateFeed(feed));
     }
-    
-    public Boolean updateAll() {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring.xml");
-        FeedDAO feedDAO = context.getBean(FeedDAO.class);
 
+    public Boolean updateAll() {
         List<Feed> feeds = feedDAO.findAll();
         for (Feed feed : feeds) {
             this.updateFeed(feed);
         }
-        context.close();
         return (true);
     }
 }
-

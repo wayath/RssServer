@@ -12,11 +12,9 @@ import com.chevres.rss.restapi.model.Feed;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
 
@@ -25,13 +23,14 @@ import org.xml.sax.XMLReader;
  * @author zanchi_r
  */
 public class RssParser {
-    public RssParser() {
-        
+    
+    private final ArticleStateDAO articleStateDAO;
+    
+    public RssParser(ArticleStateDAO articleStateDAO) {
+        this.articleStateDAO = articleStateDAO;
     }
     
     public List<Article> parseFeed(Feed feed) {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring.xml");
-        ArticleStateDAO articleStateDAO = context.getBean(ArticleStateDAO.class);
         ArticleState newArticleState = articleStateDAO.findByLabel("new");
         RssHandler rssHandler = new RssHandler(feed, newArticleState);
         try {
@@ -48,9 +47,6 @@ public class RssParser {
         catch (Exception e) {
             System.out.println(e.getMessage());
             throw new RuntimeException(e);
-        }
-        finally {
-           context.close(); 
         }
         return (rssHandler.getResult());
     }

@@ -33,17 +33,15 @@ public class ArticleDAOImpl extends AbstractGenericDAO implements ArticleDAO {
         try {
             Criteria criteria = session.createCriteria(Article.class);
             article = (Article) criteria.add(Restrictions.eq("link", link))
-                .add(Restrictions.eq("feed", feed)).uniqueResult();
-        }
-        catch (Exception e) {
+                    .add(Restrictions.eq("feed", feed)).uniqueResult();
+        } catch (Exception e) {
             throw e;
-        }
-        finally {
+        } finally {
             session.close();
         }
         return (article != null);
     }
-    
+
     @Override
     public Article findById(UserAuth userAuth, int id) {
         Session session = this.getSessionFactory().openSession();
@@ -52,16 +50,17 @@ public class ArticleDAOImpl extends AbstractGenericDAO implements ArticleDAO {
             tx = session.beginTransaction();
             Criteria criteria = session.createCriteria(Article.class);
             Article article = (Article) criteria.add(Restrictions.eq("id", id)).uniqueResult();
-                    tx.commit();
+            tx.commit();
 
-            if (article.getFeed().getIdUser() == userAuth.getIdUser()) {
-                return article;
+            if (article != null) {
+                if (article.getFeed().getIdUser() == userAuth.getIdUser()) {
+                    return article;
+                }
             }
-        }
-        catch (Exception e) {
+
+        } catch (Exception e) {
             throw e;
-        }
-        finally {
+        } finally {
             session.close();
         }
         return null;
@@ -76,17 +75,15 @@ public class ArticleDAOImpl extends AbstractGenericDAO implements ArticleDAO {
             tx = session.beginTransaction();
             Criteria criteria = session.createCriteria(Article.class);
             articles = criteria
-                .add(Restrictions.in("feed", feeds))
-                .addOrder(Order.desc("pubDate"))
-                .setFirstResult((pageNumber - 1) * ARTICLE_BY_PAGE)
-                .setMaxResults(ARTICLE_BY_PAGE).list();
+                    .add(Restrictions.in("feed", feeds))
+                    .addOrder(Order.desc("pubDate"))
+                    .setFirstResult((pageNumber - 1) * ARTICLE_BY_PAGE)
+                    .setMaxResults(ARTICLE_BY_PAGE).list();
 
             tx.commit();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             throw e;
-        }
-        finally {
+        } finally {
             session.close();
         }
         return articles;
@@ -101,16 +98,14 @@ public class ArticleDAOImpl extends AbstractGenericDAO implements ArticleDAO {
             tx = session.beginTransaction();
             Criteria criteria = session.createCriteria(Article.class);
             articles = criteria
-                .add(Restrictions.eq("feed", feed))
-                .addOrder(Order.desc("pubDate"))
-                .setFirstResult((pageNumber - 1) * ARTICLE_BY_PAGE)
-                .setMaxResults(ARTICLE_BY_PAGE).list();
+                    .add(Restrictions.eq("feed", feed))
+                    .addOrder(Order.desc("pubDate"))
+                    .setFirstResult((pageNumber - 1) * ARTICLE_BY_PAGE)
+                    .setMaxResults(ARTICLE_BY_PAGE).list();
             tx.commit();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             throw e;
-        }
-        finally {
+        } finally {
             session.close();
         }
         return articles;
@@ -130,11 +125,9 @@ public class ArticleDAOImpl extends AbstractGenericDAO implements ArticleDAO {
             session.update(article);
 
             tx.commit();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             throw e;
-        }
-        finally {
+        } finally {
             session.close();
         }
     }
@@ -155,13 +148,11 @@ public class ArticleDAOImpl extends AbstractGenericDAO implements ArticleDAO {
             query.setParameter("newState", articleState);
             query.setParameter("feedObject", feed);
             query.executeUpdate();
-        
+
             tx.commit();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             throw e;
-        }
-        finally {
+        } finally {
             session.close();
         }
     }
