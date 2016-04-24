@@ -34,4 +34,12 @@ public class Config extends WebMvcConfigurerAdapter {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/resources/**").addResourceLocations("/WEB-INF/resources/*");
     }
+    
+    /*@Override
+    public void addCorsMappings(CorsRegistry registry) {
+	registry.addMapping("/**")
+			.allowedOrigins("*")
+			.allowedMethods("GET", "POST", "PUT", "DELETE")
+			.allowCredentials(true).maxAge(3600);
+    }*/
 }

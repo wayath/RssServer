@@ -31,7 +31,7 @@ COPY ./pom.xml /root/server/pom.xml
 
 RUN sed 's/"jdbc:mysql:\/\/localhost:3306\/rss"/"jdbc:mysql:\/\/mysql:3306\/rss"/' -i /root/server/src/main/resources/spring.xml
 WORKDIR /root/server/
-RUN mvn clean install
+RUN mvn clean install -Dmaven.test.skip=true
 RUN cp ./target/rss-restapi-1.0-SNAPSHOT.war /opt/tomcat/webapps/api.war
 
 COPY ./config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf

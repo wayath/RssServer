@@ -2,6 +2,7 @@ package com.chevres.rss.restapi.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class IndexController {
 
+    @CrossOrigin
     @RequestMapping(path = "/", method = RequestMethod.GET)
     public String index(ModelMap map) {
         map.put("msg", "Rss Feed Rest Api");
