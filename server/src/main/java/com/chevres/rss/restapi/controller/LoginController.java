@@ -49,6 +49,7 @@ public class LoginController {
         userValidator.validate(user, bindingResult);
 
         if (bindingResult.hasErrors()) {
+            context.close();
             return new ResponseEntity(new ErrorMessageResponse("bad_params"),
                     HttpStatus.BAD_REQUEST);
         }
@@ -58,6 +59,7 @@ public class LoginController {
 
         User foundUser = userDAO.findByUsernameAndPassword(user.getUsername(), user.getPassword());
         if (foundUser == null) {
+            context.close();
             return new ResponseEntity(new ErrorMessageResponse("bad_credentials"),
                     HttpStatus.BAD_REQUEST);
         }

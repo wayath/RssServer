@@ -43,6 +43,7 @@ public class LogoutController {
 
         UserAuth userAuth = userAuthDAO.findByToken(userToken);
         if (userAuth == null) {
+            context.close();
             return new ResponseEntity(new ErrorMessageResponse("invalid_token"),
                     HttpStatus.BAD_REQUEST);
         }

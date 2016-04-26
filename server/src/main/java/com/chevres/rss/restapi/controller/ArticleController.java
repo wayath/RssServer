@@ -49,6 +49,7 @@ public class ArticleController {
 
         UserAuth userAuth = userAuthDAO.findByToken(userToken);
         if (userAuth == null) {
+            context.close();
             return new ResponseEntity(new ErrorMessageResponse("invalid_token"),
                     HttpStatus.BAD_REQUEST);
         }
@@ -88,12 +89,14 @@ public class ArticleController {
 
         UserAuth userAuth = userAuthDAO.findByToken(userToken);
         if (userAuth == null) {
+            context.close();
             return new ResponseEntity(new ErrorMessageResponse("invalid_token"),
                     HttpStatus.BAD_REQUEST);
         }
 
         Feed feed = feedDAO.findById(userAuth, feedId);
         if (feed == null) {
+            context.close();
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
 
@@ -129,12 +132,14 @@ public class ArticleController {
 
         UserAuth userAuth = userAuthDAO.findByToken(userToken);
         if (userAuth == null) {
+            context.close();
             return new ResponseEntity(new ErrorMessageResponse("invalid_token"),
                     HttpStatus.BAD_REQUEST);
         }
 
         Article article = articleDAO.findById(userAuth, articleId);
         if (article == null) {
+            context.close();
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
 

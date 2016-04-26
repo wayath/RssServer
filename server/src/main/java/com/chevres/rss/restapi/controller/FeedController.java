@@ -57,17 +57,20 @@ public class FeedController {
 
         UserAuth userAuth = userAuthDAO.findByToken(userToken);
         if (userAuth == null) {
+            context.close();
             return new ResponseEntity(new ErrorMessageResponse("invalid_token"),
                     HttpStatus.BAD_REQUEST);
         }
 
         feedValidator.validate(feed, bindingResult);
         if (bindingResult.hasErrors()) {
+            context.close();
             return new ResponseEntity(new ErrorMessageResponse("bad_params"),
                     HttpStatus.BAD_REQUEST);
         }
 
         if (feedDAO.doesExist(userAuth, feed.getUrl())) {
+            context.close();
             return new ResponseEntity(new ErrorMessageResponse("already_exist"),
                     HttpStatus.BAD_REQUEST);
         }
@@ -98,6 +101,7 @@ public class FeedController {
 
         UserAuth userAuth = userAuthDAO.findByToken(userToken);
         if (userAuth == null) {
+            context.close();
             return new ResponseEntity(new ErrorMessageResponse("invalid_token"),
                     HttpStatus.BAD_REQUEST);
         }
@@ -133,12 +137,14 @@ public class FeedController {
 
         UserAuth userAuth = userAuthDAO.findByToken(userToken);
         if (userAuth == null) {
+            context.close();
             return new ResponseEntity(new ErrorMessageResponse("invalid_token"),
                     HttpStatus.BAD_REQUEST);
         }
 
         Feed feed = feedDAO.findById(userAuth, feedId);
         if (feed == null) {
+            context.close();
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
 
@@ -165,17 +171,20 @@ public class FeedController {
 
         UserAuth userAuth = userAuthDAO.findByToken(userToken);
         if (userAuth == null) {
+            context.close();
             return new ResponseEntity(new ErrorMessageResponse("invalid_token"),
                     HttpStatus.BAD_REQUEST);
         }
 
         if (StringUtils.isBlank(feedRequest.getName())) {
+            context.close();
             return new ResponseEntity(new ErrorMessageResponse("bad_params"),
                     HttpStatus.BAD_REQUEST);
         }
 
         Feed feed = feedDAO.findById(userAuth, feedId);
         if (feed == null) {
+            context.close();
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
 
@@ -203,12 +212,14 @@ public class FeedController {
 
         UserAuth userAuth = userAuthDAO.findByToken(userToken);
         if (userAuth == null) {
+            context.close();
             return new ResponseEntity(new ErrorMessageResponse("invalid_token"),
                     HttpStatus.BAD_REQUEST);
         }
 
         Feed feed = feedDAO.findById(userAuth, feedId);
         if (feed == null) {
+            context.close();
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
         feedDAO.deleteArticles(feed);
@@ -233,12 +244,14 @@ public class FeedController {
 
         UserAuth userAuth = userAuthDAO.findByToken(userToken);
         if (userAuth == null) {
+            context.close();
             return new ResponseEntity(new ErrorMessageResponse("invalid_token"),
                     HttpStatus.BAD_REQUEST);
         }
 
         Feed feed = feedDAO.findById(userAuth, feedId);
         if (feed == null) {
+            context.close();
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
 

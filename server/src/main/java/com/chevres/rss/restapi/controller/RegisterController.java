@@ -47,6 +47,7 @@ public class RegisterController {
         userValidator.validate(user, bindingResult);
 
         if (bindingResult.hasErrors()) {
+            context.close();
             return new ResponseEntity(new ErrorMessageResponse("bad_params"),
                     HttpStatus.BAD_REQUEST);
         }
@@ -54,6 +55,7 @@ public class RegisterController {
         UserDAO userDAO = context.getBean(UserDAO.class);
 
         if (userDAO.doesExist(user.getUsername())) {
+            context.close();
             return new ResponseEntity(new ErrorMessageResponse("already_exist"),
                     HttpStatus.BAD_REQUEST);
         }

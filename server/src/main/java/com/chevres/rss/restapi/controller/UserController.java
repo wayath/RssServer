@@ -55,12 +55,14 @@ public class UserController {
 
         UserAuth userAuth = userAuthDAO.findByToken(userToken);
         if (userAuth == null) {
+            context.close();
             return new ResponseEntity(new ErrorMessageResponse("invalid_token"),
                     HttpStatus.BAD_REQUEST);
         }
 
         User user = userDAO.findByUsername(username);
         if (user == null) {
+            context.close();
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
 
@@ -91,30 +93,35 @@ public class UserController {
 
         userUpdateValidator.validate(userRequest, bindingResult);
         if (bindingResult.hasErrors()) {
+            context.close();
             return new ResponseEntity(new ErrorMessageResponse("bad_params"),
                     HttpStatus.BAD_REQUEST);
         }
 
         UserAuth userAuth = userAuthDAO.findByToken(userToken);
         if (userAuth == null) {
+            context.close();
             return new ResponseEntity(new ErrorMessageResponse("invalid_token"),
                     HttpStatus.BAD_REQUEST);
         }
 
         User user = userDAO.findByUsername(username);
         if (user == null) {
+            context.close();
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
 
         boolean isAdmin = userDAO.isAdmin(userAuth.getIdUser());
         if ((!isAdmin && (userAuth.getIdUser() != user.getId()))
                 || (userRequest.getType() != null && !isAdmin)) {
+            context.close();
             return new ResponseEntity(new ErrorMessageResponse("admin_required"),
                     HttpStatus.FORBIDDEN);
         }
 
         if (userDAO.doesExist(userRequest.getUsername())
                 && !user.getUsername().equalsIgnoreCase(userRequest.getUsername())) {
+            context.close();
             return new ResponseEntity(new ErrorMessageResponse("already_exist"),
                     HttpStatus.BAD_REQUEST);
         }
@@ -140,17 +147,20 @@ public class UserController {
 
         UserAuth userAuth = userAuthDAO.findByToken(userToken);
         if (userAuth == null) {
+            context.close();
             return new ResponseEntity(new ErrorMessageResponse("invalid_token"),
                     HttpStatus.BAD_REQUEST);
         }
 
         User user = userDAO.findByUsername(username);
         if (user == null) {
+            context.close();
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
 
         boolean isAdmin = userDAO.isAdmin(userAuth.getIdUser());
         if (!isAdmin && (userAuth.getIdUser() != user.getId())) {
+            context.close();
             return new ResponseEntity(new ErrorMessageResponse("admin_required"),
                     HttpStatus.FORBIDDEN);
         }
@@ -176,12 +186,14 @@ public class UserController {
 
         UserAuth userAuth = userAuthDAO.findByToken(userToken);
         if (userAuth == null) {
+            context.close();
             return new ResponseEntity(new ErrorMessageResponse("invalid_token"),
                     HttpStatus.BAD_REQUEST);
         }
 
         boolean isAdmin = userDAO.isAdmin(userAuth.getIdUser());
         if (!isAdmin) {
+            context.close();
             return new ResponseEntity(new ErrorMessageResponse("admin_required"),
                     HttpStatus.FORBIDDEN);
         }
