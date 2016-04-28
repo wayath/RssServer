@@ -45,14 +45,26 @@ public class FeedDAOImpl extends AbstractGenericDAO implements FeedDAO {
 
     @Override
     public void removeAllForUser(User user) {
+        List<Feed> feeds;
         Session session = this.getSessionFactory().openSession();
         Transaction tx;
         try {
-            tx = session.beginTransaction();
             String id = Integer.toString(user.getId());
-            String hql = "delete from Feed where id_user= :userId";
-            session.createQuery(hql).setString("userId", id).executeUpdate();
-
+            tx = session.beginTransaction();
+            Criteria criteria = session.createCriteria(Feed.class);
+            feeds = criteria.add(Restrictions.eq("idUser", user.getId())).list();
+            tx.commit();
+            
+            for (Feed feed : feeds) {
+                tx = session.beginTransaction();
+                String hql_feeds = "delete from Article where id_feed= :feedId";
+                session.createQuery(hql_feeds).setString("feedId", Integer.toString(feed.getId())).executeUpdate();
+                tx.commit();
+            }
+            
+            tx = session.beginTransaction();
+            String hql_feeds = "delete from Feed where id_user= :userId";
+            session.createQuery(hql_feeds).setString("userId", id).executeUpdate();
             tx.commit();
         }
         catch (Exception e) {
