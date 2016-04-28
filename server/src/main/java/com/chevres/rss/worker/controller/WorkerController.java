@@ -47,20 +47,23 @@ public class WorkerController {
 
         UserAuth userAuth = userAuthDAO.findByToken(userToken);
         if (userAuth == null) {
+            context.close();
             return new ResponseEntity(new ErrorMessageResponse("invalid_token"),
                     HttpStatus.BAD_REQUEST);
         }
         Feed feed = feedDAO.findById(userAuth, feedId);
         if (feed == null) {
+            context.close();
             return new ResponseEntity(new ErrorMessageResponse("bad_params"),
                     HttpStatus.BAD_REQUEST);
         }
-        context.close();
         FeedUpdater feedUpdater = new FeedUpdater(feedDAO, articleDAO, articleStateDAO);
         if (feedUpdater.updateFeed(feed)) {
+            context.close();
             return new ResponseEntity(new SuccessMessageResponse("success"),
                     HttpStatus.OK);
         } else {
+            context.close();
             return new ResponseEntity(new ErrorMessageResponse("error"),
                     HttpStatus.BAD_REQUEST);
         }
