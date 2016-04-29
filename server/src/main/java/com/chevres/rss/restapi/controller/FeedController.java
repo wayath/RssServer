@@ -12,8 +12,10 @@ import com.chevres.rss.restapi.controller.jsonresponse.SuccessGetFeedsResponse;
 import com.chevres.rss.restapi.controller.jsonresponse.SuccessMessageResponse;
 import com.chevres.rss.restapi.controller.validators.FeedValidator;
 import com.chevres.rss.restapi.dao.ArticleDAO;
+import com.chevres.rss.restapi.dao.ArticleStateDAO;
 import com.chevres.rss.restapi.dao.FeedDAO;
 import com.chevres.rss.restapi.dao.UserAuthDAO;
+import com.chevres.rss.restapi.model.ArticleState;
 import com.chevres.rss.restapi.model.Feed;
 import com.chevres.rss.restapi.model.UserAuth;
 import java.util.ArrayList;
@@ -54,6 +56,7 @@ public class FeedController {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring.xml");
         FeedDAO feedDAO = context.getBean(FeedDAO.class);
         UserAuthDAO userAuthDAO = context.getBean(UserAuthDAO.class);
+        ArticleStateDAO articleStateDAO = context.getBean(ArticleStateDAO.class);
 
         UserAuth userAuth = userAuthDAO.findByToken(userToken);
         if (userAuth == null) {
@@ -79,8 +82,9 @@ public class FeedController {
         feed.setRefreshError(false);
         feedDAO.create(feed);
 
-        int newArticles = feedDAO.getNewArticlesByFeed(feed);
-        
+        ArticleState newState = articleStateDAO.findByLabel(ArticleState.NEW_LABEL);
+        int newArticles = feedDAO.getNewArticlesByFeed(feed, newState);
+
         context.close();
 
         return new ResponseEntity(new SuccessFeedInfoResponse(
@@ -98,6 +102,7 @@ public class FeedController {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring.xml");
         FeedDAO feedDAO = context.getBean(FeedDAO.class);
         UserAuthDAO userAuthDAO = context.getBean(UserAuthDAO.class);
+        ArticleStateDAO articleStateDAO = context.getBean(ArticleStateDAO.class);
 
         UserAuth userAuth = userAuthDAO.findByToken(userToken);
         if (userAuth == null) {
@@ -106,6 +111,7 @@ public class FeedController {
                     HttpStatus.BAD_REQUEST);
         }
 
+        ArticleState newState = articleStateDAO.findByLabel(ArticleState.NEW_LABEL);
         List<Feed> feeds = feedDAO.findAll(userAuth);
         List<SuccessGetFeedWithIdResponse> finalList = new ArrayList<>();
         for (Feed feed : feeds) {
@@ -114,7 +120,7 @@ public class FeedController {
                     feed.getName(),
                     feed.getUrl(),
                     feed.getRefreshError(),
-                    feedDAO.getNewArticlesByFeed(feed)));
+                    feedDAO.getNewArticlesByFeed(feed, newState)));
         }
 
         context.close();
@@ -134,6 +140,7 @@ public class FeedController {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring.xml");
         FeedDAO feedDAO = context.getBean(FeedDAO.class);
         UserAuthDAO userAuthDAO = context.getBean(UserAuthDAO.class);
+        ArticleStateDAO articleStateDAO = context.getBean(ArticleStateDAO.class);
 
         UserAuth userAuth = userAuthDAO.findByToken(userToken);
         if (userAuth == null) {
@@ -148,8 +155,9 @@ public class FeedController {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
 
-        int newArticles = feedDAO.getNewArticlesByFeed(feed);
-        
+        ArticleState newState = articleStateDAO.findByLabel(ArticleState.NEW_LABEL);
+        int newArticles = feedDAO.getNewArticlesByFeed(feed, newState);
+
         context.close();
 
         return new ResponseEntity(new SuccessFeedInfoResponse(
@@ -168,6 +176,7 @@ public class FeedController {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring.xml");
         FeedDAO feedDAO = context.getBean(FeedDAO.class);
         UserAuthDAO userAuthDAO = context.getBean(UserAuthDAO.class);
+        ArticleStateDAO articleStateDAO = context.getBean(ArticleStateDAO.class);
 
         UserAuth userAuth = userAuthDAO.findByToken(userToken);
         if (userAuth == null) {
@@ -189,11 +198,12 @@ public class FeedController {
         }
 
         feedDAO.updateName(feed, feedRequest);
-        int newArticles = feedDAO.getNewArticlesByFeed(feed);
+
+        ArticleState newState = articleStateDAO.findByLabel(ArticleState.NEW_LABEL);
+        int newArticles = feedDAO.getNewArticlesByFeed(feed, newState);
 
         context.close();
 
-        
         return new ResponseEntity(new SuccessFeedInfoResponse(
                 feed.getId(), feed.getName(), feed.getUrl(), newArticles, feed.getRefreshError()),
                 HttpStatus.OK);

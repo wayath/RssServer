@@ -5,6 +5,7 @@
  */
 package com.chevres.rss.restapi.dao.impl;
 
+import com.chevres.rss.restapi.dao.ArticleDAO;
 import com.chevres.rss.restapi.dao.ArticleStateDAO;
 import com.chevres.rss.restapi.dao.FeedDAO;
 import com.chevres.rss.restapi.dao.UserAuthDAO;
@@ -45,6 +46,8 @@ public class FeedDAOImplTest {
     FeedDAO feedDAO;
     @Autowired
     ArticleStateDAO articleStateDAO;
+    @Autowired
+    ArticleDAO articleDAO;
 
     /**
      * Test of doesExist method, of class FeedDAOImpl.
@@ -128,6 +131,12 @@ public class FeedDAOImplTest {
      */
     @Test
     public void testUpdateRefreshError() {
+        Feed feed = feedDAO.findById(1);
+        assertEquals(feed.getRefreshError(), false);
+
+        feedDAO.updateRefreshError(feed, true);
+
+        assertEquals(feed.getRefreshError(), true);
     }
 
     /**
@@ -145,6 +154,9 @@ public class FeedDAOImplTest {
      */
     @Test
     public void testGetNewArticlesByFeed() {
+        Feed feed = feedDAO.findById(1);
+        ArticleState newState = articleStateDAO.findByLabel(ArticleState.NEW_LABEL);
+        assertEquals(feedDAO.getNewArticlesByFeed(feed, newState), 2);
     }
 
     /**
@@ -152,6 +164,15 @@ public class FeedDAOImplTest {
      */
     @Test
     public void testDeleteArticles() {
+        UserAuth userAuth = userAuthDAO.findByToken(TOKEN_USER1);
+        Feed feed = feedDAO.findById(userAuth, 1);
+        assertNotNull(articleDAO.findById(userAuth, 1));
+        assertNotNull(articleDAO.findById(userAuth, 2));
+
+        feedDAO.deleteArticles(feed);
+
+        assertNull(articleDAO.findById(userAuth, 1));
+        assertNull(articleDAO.findById(userAuth, 2));
     }
 
 }
