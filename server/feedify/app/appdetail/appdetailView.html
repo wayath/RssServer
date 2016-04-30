@@ -1,0 +1,50 @@
+<div class="row">
+    <h2 class="monts" style="text-align: center;margin-bottom: 20px;"><i class="fa fa-newspaper-o"></i> {{feed.name}} <span class="badge" style="font-size: 20px;">{{feed.new_articles}}</span></h2>
+    <div class="col-md-10 col-md-offset-1">
+        <button class="btn" ng-click="refreshData()"><i class="fa fa-refresh"></i> Refresh</button>
+        <button class="btn" ng-click="markAllAsRead()"><i class="fa fa-check"></i> Mark all articles as read</button>
+        <button class="btn" ng-click="showNewName = !showNewName"><i class="fa fa-edit"></i>Edit feed name</button>
+        <button class="btn" ng-click="deleteFeed()"><i class="fa fa-trash"></i> Delete feed</button>
+
+
+        <div uib-collapse="!showNewName">
+            <form name="newNameForm" novalidate>
+                <div class="form-group" style="margin-top: 20px;">
+                    <label for="feedNameInput">Feed name :</label>
+                    <input type="text" class="form-control" id="feedNameInput" ng-model="newFeedName" placeholder="" required>
+                </div>
+                <button type="submit" class="btn" ng-disabled="newNameForm.$invalid" ng-click="updateFeedName()">Submit</button>
+            </form>
+        </div>
+
+        <div class="article-panel" ng-repeat="article in articles">
+            <div class="timeline-heading">
+                <h4 class="timeline-title" style="cursor: pointer;">
+                  <span ng-click="openArticle(article)">{{article.title}}</span>
+                  <div class="btn-group" role="group" aria-label="..." style="float: right;">
+                      <button class="btn" ng-click="showFullArticle = !showFullArticle" ng-show="article.preview.length != article.full.length">
+                          <i class="fa fa-newspaper-o"></i>
+                          <span ng-if="!showFullArticle">Show</span>
+                          <span ng-if="showFullArticle">Hide</span> full article
+                      </button>
+                      <button type="button" class="btn" ng-show="article.status == 'new'" ng-click="markAsRead(article)">
+                          <i class="fa fa-eye"></i> Mark as read
+                      </button>
+                  </div>
+                </h4>
+                <span class="badge" ng-if="article.status == 'new'">NEW</span>
+                <p><small class="text-muted"><i class="fa fa-link"></i> {{article.link | limitTo : 30}}....</small></p>
+            </div>
+            <div class="timeline-body">
+                <p ng-bind-html="article.preview" ng-show="!showFullArticle"></p>
+                <div uib-collapse="!showFullArticle">
+                    <p ng-if="showFullArticle" ng-bind-html="article.fullHTML"></p>
+                </div>
+            </div>
+        </div>
+
+        <uib-pager total-items="200" ng-model="currentPage"></uib-pager>
+
+
+    </div>
+</div>

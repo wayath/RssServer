@@ -2,7 +2,12 @@ FROM ubuntu:14.04
 
 RUN apt-get update && apt-get upgrade -y
 
-RUN apt-get install software-properties-common wget curl python supervisor mysql-client maven -y
+RUN apt-get install software-properties-common wget curl python supervisor mysql-client maven nodejs npm git -y
+
+RUN sudo ln -s /usr/bin/nodejs /usr/local/bin/node
+RUN sudo ln -s /usr/bin/npm /usr/local/bin/npm
+
+RUN npm install -g bower
 
 ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
 ENV CATALINA_HOME /opt/tomcat
@@ -33,6 +38,15 @@ RUN sed 's/"jdbc:mysql:\/\/localhost:3306\/rss"/"jdbc:mysql:\/\/mysql:3306\/rss"
 WORKDIR /root/server/
 RUN mvn clean install -Dmaven.test.skip=true
 RUN cp ./target/rss-restapi-1.0-SNAPSHOT.war /opt/tomcat/webapps/api.war
+
+COPY ./feedify /root/feedify
+WORKDIR /root/feedify
+RUN npm install -g bower
+RUN echo '{ "allow_root": true, "interactive": false }' > /root/.bowerrc
+RUN bower install
+WORKDIR /root/feedify/app
+RUN jar cvf feedify.war *
+RUN cp ./feedify.war /opt/tomcat/webapps/feedify.war
 
 COPY ./config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 

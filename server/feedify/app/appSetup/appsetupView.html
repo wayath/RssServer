@@ -1,0 +1,34 @@
+<div class="row">
+    <h2 class="monts" style="text-align: center;"><i class="fa fa-newspaper-o"></i> Setup</h2>
+    <div class="col-md-8 col-md-offset-2">
+
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Username</th>
+            <th>Admin</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="user in users">
+            <td>{{user.id}}</td>
+            <td><strong>{{user.username}}</strong></td>
+            <td>
+              <i class="fa fa-check" ng-if="user.type == 'admin'"></i>
+              <i class="fa fa-times" ng-if="user.type != 'admin'"></i>
+            </td>
+            <td>
+              <div class="btn-group btn-group-xs" role="group" aria-label="">
+                <button class="btn" ng-click="updatePassword(user.username)"><i class="fa fa-lock"></i></button>
+                <button class="btn" ng-click="makeAdmin(user)" ng-if="userInfos.type == 'admin'"><i class="fa fa-rocket"></i></button>
+                <button class="btn" ng-click="deleteUser(user.username)"><i class="fa fa-trash"></i></button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+</div>

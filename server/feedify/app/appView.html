@@ -1,0 +1,48 @@
+<div id="wrapper">
+
+    <!-- Sidebar -->
+    <div id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+            <li class="sidebar-brand monts">
+              <img ng-src="img/logo.png" class="logo" alt="">
+                <a href="#">
+                    Feedify
+                </a>
+            </li>
+            <div style="clear: both;"></div>
+            <li style="margin-bottom: 50px;">
+              <h4 style="color: white; text-align:center;">
+                <i class="fa fa-user"></i>
+                {{username}}
+                <a style="display:inline" ui-sref="app.setup">
+                  <i class="fa fa-gear"></i>
+                </a>
+                <span style="cursor: pointer; font-size: 15px; color : #6f6f6f;" ng-click="logout()">Logout</span>
+              </h4>
+            </li>
+            <li ng-if="!feeds.length">
+              <p style="color:white;">You don't have any feed for now.</p>
+            </li>
+            <li style="margin-bottom: 30px;">
+              <button class="btn" ng-click="openAddFeedModal()"><i class="fa fa-plus"></i> Add a feed</button>
+            </li>
+            <li class="monts" style="font-size: 17px; ">
+              <a ui-sref="app.home"><i class="fa fa-home"></i> Home</a>
+            </li>
+            <li ng-repeat="feed in feeds" class="monts" style="font-size: 17px; ">
+                <a ui-sref="app.detail({id: feed.id})"><span class="badge" style="background-color: #1BC184;">{{feed.new_articles}}</span> {{feed.name}} </a>
+            </li>
+
+        </ul>
+    </div>
+    <!-- /#sidebar-wrapper -->
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+        <div class="container-fluid">
+          <ui-view></ui-view>
+        </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+
+</div>
