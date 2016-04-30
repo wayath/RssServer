@@ -39,7 +39,7 @@ public class ArticleState implements Serializable {
     public int getId() {
         return id;
     }
-    
+
     public void setId(int id) {
         this.id = id;
     }
@@ -59,5 +59,5 @@ public class ArticleState implements Serializable {
     public void setStatus(boolean status) {
         this.status = status;
     }
-    
+
 }

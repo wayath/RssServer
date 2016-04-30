@@ -4,7 +4,7 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping package="com.chevres.rss.restapi.model">
-    <class name="ArticleState" table="article_state">
+    <class name="ArticleState" table="article_state" lazy="false">
         <id name="id" type="int" column="id">
             <generator class="native"/>
         </id>

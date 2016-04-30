@@ -10,9 +10,11 @@ import com.chevres.rss.restapi.controller.jsonresponse.SuccessGetArticleWithIdRe
 import com.chevres.rss.restapi.controller.jsonresponse.SuccessGetFeedArticlesResponse;
 import com.chevres.rss.restapi.controller.jsonresponse.SuccessMessageResponse;
 import com.chevres.rss.restapi.dao.ArticleDAO;
+import com.chevres.rss.restapi.dao.ArticleStateDAO;
 import com.chevres.rss.restapi.dao.FeedDAO;
 import com.chevres.rss.restapi.dao.UserAuthDAO;
 import com.chevres.rss.restapi.model.Article;
+import com.chevres.rss.restapi.model.ArticleState;
 import com.chevres.rss.restapi.model.Feed;
 import com.chevres.rss.restapi.model.UserAuth;
 import java.util.ArrayList;
@@ -129,6 +131,7 @@ public class ArticleController {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring.xml");
         UserAuthDAO userAuthDAO = context.getBean(UserAuthDAO.class);
         ArticleDAO articleDAO = context.getBean(ArticleDAO.class);
+        ArticleStateDAO articleStateDAO = context.getBean(ArticleStateDAO.class);
 
         UserAuth userAuth = userAuthDAO.findByToken(userToken);
         if (userAuth == null) {
@@ -143,7 +146,8 @@ public class ArticleController {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
 
-        articleDAO.markAsRead(article);
+        ArticleState newState = articleStateDAO.findByLabel(ArticleState.NEW_LABEL);
+        articleDAO.markAsRead(article, newState);
         
         context.close();
         return new ResponseEntity(new SuccessMessageResponse("success"),

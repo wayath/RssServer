@@ -17,6 +17,7 @@ import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 import static org.junit.Assert.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,6 +38,8 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 @DatabaseSetup("classpath:datasets/dataset.xml")
 public class ArticleDAOImplTest {
 
+    private static final String TOKEN_USER1 = "upok4dqq2r7udqf9p5u21p0bh3";
+
     @Autowired
     UserAuthDAO userAuthDAO;
     @Autowired
@@ -51,6 +54,11 @@ public class ArticleDAOImplTest {
      */
     @Test
     public void testDoesExist() {
+        String link = "http://article.rss.com";
+        String fakeLink = "http://articlefake.rss.com";
+        Feed feed = feedDAO.findById(1);
+        assertTrue(articleDAO.doesExist(feed, link));
+        assertFalse(articleDAO.doesExist(feed, fakeLink));
     }
 
     /**
@@ -58,6 +66,11 @@ public class ArticleDAOImplTest {
      */
     @Test
     public void testFindById() {
+        UserAuth userAuth = userAuthDAO.findByToken(TOKEN_USER1);
+        Article article = articleDAO.findById(userAuth, 1);
+        Article articleFake = articleDAO.findById(userAuth, 4);
+        assertNotNull(article);
+        assertNull(articleFake);
     }
 
     /**
@@ -65,6 +78,12 @@ public class ArticleDAOImplTest {
      */
     @Test
     public void testFindArticlesByPageId() {
+        UserAuth userAuth = userAuthDAO.findByToken(TOKEN_USER1);
+        List<Feed> feeds = feedDAO.findAll(userAuth);
+        List<Article> articles = articleDAO.findArticlesByPageId(feeds, 1);
+        assertEquals(articles.size(), 3);
+        articles = articleDAO.findArticlesByPageId(feeds, 2);
+        assertEquals(articles.size(), 0);
     }
 
     /**
@@ -72,6 +91,15 @@ public class ArticleDAOImplTest {
      */
     @Test
     public void testFindArticlesByFeedAndPageId() {
+        UserAuth userAuth = userAuthDAO.findByToken(TOKEN_USER1);
+        Feed feed = feedDAO.findById(userAuth, 1);
+        Feed feed2 = feedDAO.findById(userAuth, 2);
+        List<Article> articles = articleDAO.findArticlesByFeedAndPageId(feed, 1);
+        List<Article> articles2 = articleDAO.findArticlesByFeedAndPageId(feed2, 1);
+        assertEquals(articles.size(), 2);
+        assertEquals(articles2.size(), 1);
+        articles = articleDAO.findArticlesByFeedAndPageId(feed, 2);
+        assertEquals(articles.size(), 0);
     }
 
     /**
@@ -79,6 +107,15 @@ public class ArticleDAOImplTest {
      */
     @Test
     public void testMarkAsRead() {
+        UserAuth userAuth = userAuthDAO.findByToken(TOKEN_USER1);
+        Article article = articleDAO.findById(userAuth, 1);
+        assertEquals(article.getStatus().getLabel(), ArticleState.NEW_LABEL);
+
+        ArticleState readState = articleStateDAO.findByLabel(ArticleState.READ_LABEL);
+        articleDAO.markAsRead(article, readState);
+
+        article = articleDAO.findById(userAuth, 1);
+        assertEquals(article.getStatus().getLabel(), ArticleState.READ_LABEL);
     }
 
     /**
@@ -86,6 +123,19 @@ public class ArticleDAOImplTest {
      */
     @Test
     public void testMarkAllArticlesInFeedAsRead() {
+        UserAuth userAuth = userAuthDAO.findByToken(TOKEN_USER1);
+        Feed feed = feedDAO.findById(userAuth, 1);
+
+        for (Article article : articleDAO.findArticlesByFeedAndPageId(feed, 1)) {
+            assertEquals(article.getStatus().getLabel(), ArticleState.NEW_LABEL);
+        }
+
+        ArticleState readState = articleStateDAO.findByLabel(ArticleState.READ_LABEL);
+        articleDAO.markAllArticlesInFeedAsRead(feed, readState);
+
+        for (Article article : articleDAO.findArticlesByFeedAndPageId(feed, 1)) {
+            assertEquals(article.getStatus().getLabel(), ArticleState.READ_LABEL);
+        }
     }
 
     @Test

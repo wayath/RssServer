@@ -251,6 +251,7 @@ public class FeedController {
         FeedDAO feedDAO = context.getBean(FeedDAO.class);
         UserAuthDAO userAuthDAO = context.getBean(UserAuthDAO.class);
         ArticleDAO articleDAO = context.getBean(ArticleDAO.class);
+        ArticleStateDAO articleStateDAO = context.getBean(ArticleStateDAO.class);
 
         UserAuth userAuth = userAuthDAO.findByToken(userToken);
         if (userAuth == null) {
@@ -265,7 +266,8 @@ public class FeedController {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
 
-        articleDAO.markAllArticlesInFeedAsRead(feed);
+        ArticleState articleState = articleStateDAO.findByLabel(ArticleState.NEW_LABEL);
+        articleDAO.markAllArticlesInFeedAsRead(feed, articleState);
         context.close();
 
         return new ResponseEntity(new SuccessMessageResponse("success"),

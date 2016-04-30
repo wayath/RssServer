@@ -6,6 +6,7 @@
 package com.chevres.rss.restapi.dao;
 
 import com.chevres.rss.restapi.model.Article;
+import com.chevres.rss.restapi.model.ArticleState;
 import com.chevres.rss.restapi.model.Feed;
 import com.chevres.rss.restapi.model.UserAuth;
 import java.util.List;
@@ -24,7 +25,7 @@ public interface ArticleDAO extends GenericDAO {
     
     public List<Article> findArticlesByFeedAndPageId(Feed feed, int pageNumber);
     
-    public void markAsRead(Article article);
+    public void markAsRead(Article article, ArticleState newState);
     
-    public void markAllArticlesInFeedAsRead(Feed feed);
+    public void markAllArticlesInFeedAsRead(Feed feed, ArticleState newState);
 }

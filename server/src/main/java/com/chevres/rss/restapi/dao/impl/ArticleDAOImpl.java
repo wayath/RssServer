@@ -112,16 +112,13 @@ public class ArticleDAOImpl extends AbstractGenericDAO implements ArticleDAO {
     }
 
     @Override
-    public void markAsRead(Article article) {
+    public void markAsRead(Article article, ArticleState newState) {
         Session session = this.getSessionFactory().openSession();
         Transaction tx;
         try {
             tx = session.beginTransaction();
-            ArticleState articleState = new ArticleState();
-            articleState.setLabel(ArticleState.READ_LABEL);
-            articleState.setStatus(ArticleState.READ_STATUS);
-            article.setStatus(articleState);
 
+            article.setStatus(newState);
             session.update(article);
 
             tx.commit();
@@ -133,19 +130,16 @@ public class ArticleDAOImpl extends AbstractGenericDAO implements ArticleDAO {
     }
 
     @Override
-    public void markAllArticlesInFeedAsRead(Feed feed) {
+    public void markAllArticlesInFeedAsRead(Feed feed, ArticleState newState) {
         Session session = this.getSessionFactory().openSession();
         Transaction tx;
         try {
             tx = session.beginTransaction();
-            ArticleState articleState = new ArticleState();
-            articleState.setLabel(ArticleState.READ_LABEL);
-            articleState.setStatus(ArticleState.READ_STATUS);
 
             String hql = "update Article set status = :newState "
                     + "where feed = :feedObject";
             Query query = session.createQuery(hql);
-            query.setParameter("newState", articleState);
+            query.setParameter("newState", newState);
             query.setParameter("feedObject", feed);
             query.executeUpdate();
 
