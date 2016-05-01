@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="fr.do_f.rssfeedify.main.feed.activity.AddFeedActivity">
+
+    <fr.do_f.rssfeedify.view.RevealBackgroundView
+        android:id="@+id/vRevealBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <ProgressBar
+        android:id="@+id/loading_spinner"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:indeterminateTintMode="src_atop"
+        android:alpha="0"
+        android:layout_gravity="center" />
+
+    <LinearLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_margin="20dp"
+        android:orientation="vertical"
+        android:background="@drawable/drawable_background_box">
+
+        <ImageView
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_gravity="center"
+            android:background="@drawable/logo"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="15dp"
+            android:text="@string/feed_add_text"
+            android:textSize="21sp"/>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/feed_add_separator"/>
+
+        <EditText
+            android:id="@+id/feed_add_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:singleLine="true"
+            android:hint="@string/feed_add_et_hint_name"
+            android:gravity="center"
+            android:inputType="text"
+            android:background="@drawable/drawable_login_edittext"/>
+
+        <EditText
+            android:id="@+id/feed_add_url"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:singleLine="true"
+            android:hint="@string/feed_add_et_hint_url"
+            android:gravity="center"
+            android:inputType="textUri"
+            android:background="@drawable/drawable_login_edittext"/>
+
+        <Button
+            android:id="@+id/feed_add_submit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/drawable_button"
+            android:textColor="@color/login_text_button"
+            android:text="@string/feed_add_button"/>
+
+    </LinearLayout>
+
+</RelativeLayout>
