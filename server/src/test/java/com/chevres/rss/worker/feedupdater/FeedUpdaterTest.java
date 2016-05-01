@@ -45,4 +45,13 @@ public class FeedUpdaterTest {
         assertTrue(feedUpdater.updateFeedById(2));
         assertFalse(feedUpdater.updateFeedById(3));
     }
+    
+    @Test
+    public void testUpdateAll() {
+        FeedUpdater feedUpdater = new FeedUpdater(feedDAO, articleDAO, articleStateDAO);
+        feedUpdater.updateAll();
+        assertTrue(feedDAO.findById(1).getRefreshError());
+        assertFalse(feedDAO.findById(2).getRefreshError());
+        assertTrue(feedDAO.findById(3).getRefreshError());
+    }
 }
