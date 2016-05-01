@@ -146,7 +146,7 @@ public class ArticleController {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
 
-        ArticleState newState = articleStateDAO.findByLabel(ArticleState.NEW_LABEL);
+        ArticleState newState = articleStateDAO.findByLabel(ArticleState.READ_LABEL);
         articleDAO.markAsRead(article, newState);
         
         context.close();

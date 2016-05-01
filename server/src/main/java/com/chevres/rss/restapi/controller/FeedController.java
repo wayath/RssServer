@@ -266,7 +266,7 @@ public class FeedController {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
 
-        ArticleState articleState = articleStateDAO.findByLabel(ArticleState.NEW_LABEL);
+        ArticleState articleState = articleStateDAO.findByLabel(ArticleState.READ_LABEL);
         articleDAO.markAllArticlesInFeedAsRead(feed, articleState);
         context.close();
 
