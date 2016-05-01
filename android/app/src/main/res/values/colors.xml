@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#1BC184</color> <!-- Action Bar 3F51B5-->
+    <color name="colorPrimaryDark">#1daf84</color> <!-- Status Bar 303F9F-->
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="white">#ffffff</color>
+
+    <color name="ganjify">#1bc184</color>
+    <color name="feed_time">#999999</color>
+    <color name="feed_add_separator">#e5e5e5</color>
+    <color name="white_material">#fafafa</color>
+
+    <color name="menu_background">#2C3E50</color>
+
+    <color name="login_title">#494949</color>
+    <color name="login_text_button">#ffffff</color>
+
+
+    <!-- google's material design colours from
+    http://www.google.com/design/spec/style/color.html#color-ui-color-palette -->
+
+    <!--reds-->
+    <color name="md_red_500">#F44336</color>
+    <color name="md_red_A200">#FF5252</color>
+
+    <!-- pinks -->
+    <color name="md_pink_500">#E91E63</color>
+    <color name="md_pink_A200">#FF4081</color>
+
+    <!-- purples -->
+    <color name="md_purple_500">#9C27B0</color>
+    <color name="md_purple_A200">#E040FB</color>
+
+    <!-- deep purples -->
+    <color name="md_deep_purple_500">#673AB7</color>
+    <color name="md_deep_purple_A200">#7C4DFF</color>
+
+    <!-- indigo -->
+    <color name="md_indigo_500">#3F51B5</color>
+    <color name="md_indigo_A200">#536DFE</color>
+
+    <!--blue-->
+    <color name="md_blue_500">#2196F3</color>
+    <color name="md_blue_A200">#448AFF</color>
+
+    <!-- light blue-->
+    <color name="md_light_blue_500">#03A9F4</color>
+    <color name="md_light_blue_A200">#40C4FF</color>
+
+    <!-- cyan -->
+    <color name="md_cyan_500">#00BCD4</color>
+    <color name="md_cyan_A200">#18FFFF</color>
+
+    <!-- teal -->
+    <color name="md_teal_500">#009688</color>
+    <color name="md_teal_A200">#64FFDA</color>
+
+    <!-- green -->
+    <color name="md_green_500">#4CAF50</color>
+    <color name="md_green_A200">#69F0AE</color>
+
+    <!--light green-->
+    <color name="md_light_green_500">#8BC34A</color>
+    <color name="md_light_green_A200">#B2FF59</color>
+
+    <!-- lime-->
+    <color name="md_lime_500">#CDDC39</color>
+    <color name="md_lime_A200">#EEFF41</color>
+
+    <!--yellow -->
+    <color name="md_yellow_500">#FFEB3B</color>
+    <color name="md_yellow_A200">#FFFF00</color>
+
+    <!--amber-->
+    <color name="md_amber_500">#FFC107</color>
+    <color name="md_amber_A200">#FFD740</color>
+
+    <!--orange-->
+    <color name="md_orange_500">#FF9800</color>
+    <color name="md_orange_A200">#FFAB40</color>
+
+    <!--deep orange-->
+    <color name="md_deep_orange_500">#FF5722</color>
+    <color name="md_deep_orange_A200">#FF6E40</color>
+
+</resources>
